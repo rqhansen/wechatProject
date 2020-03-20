@@ -24,6 +24,7 @@ module.exports = {
     urls: {
         getAccessToken: 'https://api.weixin.qq.com/cgi-bin/token',
         upLoadTemporyMaterial: 'https://api.weixin.qq.com/cgi-bin/media/upload',
+        upLoadPermantMaterial: 'https://api.weixin.qq.com/cgi-bin/material/add_material', // 上传永久素材
         createMenu: ' https://api.weixin.qq.com/cgi-bin/menu/create'
     },
     // menus: {

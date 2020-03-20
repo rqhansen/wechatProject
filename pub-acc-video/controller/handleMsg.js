@@ -2,7 +2,7 @@
 const getRawBody = require('raw-body');
 const tpl = require('../utils/createXml');
 const { parseXML,formatMsg} = require('../utils/handleXml');
-const { upLoadTempMaterial } = require('../utils/upLoadMaterial');
+const { upLoadPermanMaterial } = require('../utils/upLoadMaterial');
 const searchMovie = require('../utils/searchMovie');
 const handleMsg = async (ctx) => {  
     let xml = await getRawBody(ctx.req,{
@@ -19,9 +19,6 @@ const handleMsg = async (ctx) => {
     };
     ctx.status = 200;
     ctx.type = 'application/xml';
-    // let textMovies = '';
-    // let searchName = '';
-    // let voiceMovies = '';
     if(MsgType === 'text') {
         if(Content[Content.length - 1] === 'm' && Content.length >1) {
             const keyword = Content.slice(0,Content.length - 1);
@@ -48,7 +45,13 @@ const handleMsg = async (ctx) => {
                 ctx.body = mXmls;
             }
         } else if(Content === '音乐') {
-            const musicReply = await upLoadTempMaterial('thumb','public/mp/chx.jpg');
+            // const musicReply = await upLoadTempMaterial('thumb','public/mp/chx.jpg');
+            // const musicReply = await upLoadPermanMaterial('thumb','public/mp/chx.jpg');
+            const musicReply = {
+                media_id: '5LVqPvRPtA_-LXTvblPHB_oEHdJECwyrniP1lDo62GU',
+                url: 'http://mmbiz.qpic.cn/mmbiz_jpg/Ua6zVtrQ2NVvKITx4S8fmFUwsVXicIPysRtbaxXC298ywpp12jicrq3P2G0uWmgy1tek5u3oKSDuP0SpvRoQAdkA/0?wx_fmt=jpeg',
+                item: []
+              }
             reply = !musicReply ? ''
                     : Object.assign({},reply,{
                         msgType: 'music',
@@ -56,34 +59,47 @@ const handleMsg = async (ctx) => {
                         descript: '永远是你的朋友',
                         musicUrl: 'https://m3ws.kugou.com/kgsong/ryczpf2.html',
                         hQMusicUrl: 'https://m3ws.kugou.com/kgsong/ryczpf2.html',
-                        thumbMediaId: musicReply.thumb_media_id
+                        thumbMediaId: musicReply.media_id
                     });
+                    console.log(musicReply);
              ctx.body = tpl(reply);
-        } else if(Content === '视频') {
-            const videoReply = await upLoadTempMaterial('video','public/mp/video.mp4');
-            reply = !videoReply ? ''
-                     :  Object.assign({},reply,{
-                        msgType: 'video',
-                        mediaId: videoReply.media_id,
-                        title: 'Html5',
-                        description: '演示html5的video标签播放视频'
-                    });
-            ctx.body = tpl(reply);
-        } else if(Content === '图片') {
-            const imageReply = await upLoadTempMaterial('image','public/mp/cat.jpg');
+        } 
+        // else if(Content === '视频') {
+        //     const videoReply = await upLoadPermanMaterial('video','public/mp/video.mp4');
+        //     console.log(videoReply);
+        //     reply = !videoReply ? ''
+        //              :  Object.assign({},reply,{
+        //                 msgType: 'video',
+        //                 mediaId: videoReply.media_id,
+        //                 title: 'Html5',
+        //                 description: '演示html5的video标签播放视频'
+        //             });
+        //     ctx.body = tpl(reply);
+        // } 
+        else if(Content === '图片') {
+            // const imageReply = await upLoadPermanMaterial('image','public/mp/cat.jpg');
+            const imageReply = { // 永久素材数据
+                media_id: '5LVqPvRPtA_-LXTvblPHB8pJuYplwf4ujbk8YU8j9y4',
+                url: 'http://mmbiz.qpic.cn/mmbiz_jpg/Ua6zVtrQ2NVvKITx4S8fmFUwsVXicIPysrqZtwdPeY8lKDIuUIEqglobcu5H0VQiaK3U4pkHGd9tIqwnloplNhOw/0?wx_fmt=jpeg'
+            };
             reply = !imageReply ? ''
                     : Object.assign({} ,reply,{
                         msgType: 'image',
                         mediaId: imageReply.media_id
                     })
-            ctx.body = tpl(reply);
+                    ctx.body = tpl(reply);
         } else if (Content === '语音') {
-            const voiceReply = await upLoadTempMaterial('voice','public/mp/hard to say I am sory.mp3');
+            // const voiceReply = await upLoadTempMaterial('voice','public/mp/hard to say I am sory.mp3');
+            // const voiceReply = await upLoadPermanMaterial('voice','public/mp/hard to say I am sory.mp3')
+            const voiceReply = {
+                media_id: '5LVqPvRPtA_-LXTvblPHBy198KWlQtGB8Pt_Fn-v3xY'
+            };
             reply = !voiceReply ? ''
                     : Object.assign({},reply,{
                         msgType: 'voice',
                         mediaId: voiceReply.media_id
                     });
+                    console.log(reply);
              ctx.body = tpl(reply);
         } else if(Content === '位置') {
             reply = Object.assign({},reply,{
@@ -179,7 +195,6 @@ const handleMsg = async (ctx) => {
                          '回复图片获取图片\n' +
                          '回复语音获取语音\n' +
                          '回复音乐获取音乐\n' +
-                         '回复视频获取视频\n' +
                          '回复图文获取图文\n' +
                          '发送位置获取位置\n' +
                          '语音回复电影名称搜索电影\n' + 
