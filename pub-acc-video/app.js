@@ -39,7 +39,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(checkSign());
-app.use(checkAccessToken());
+// app.use(checkAccessToken());
 // app.use(createMenu());
 
 // routes

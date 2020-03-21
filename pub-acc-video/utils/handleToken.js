@@ -21,12 +21,14 @@ function getLocalAccessToken() {
  * 存储access_token
  */
 function storeAccessToken(json) {
-    return new Promise((resolve) => {
+    return new Promise((resolve,reject) => {
         fs.writeFile('configs/accessToken.json',json,(error) => {
             if(error) {
-               return resolve(error);
-            } 
-            resolve();
+            //    return resolve(error);
+                reject(error);
+            } else {
+                resolve();
+            }
         });
     })
 }
@@ -35,12 +37,14 @@ function storeAccessToken(json) {
  * 请求access_token
  */
 function updateAccessToken() {
-    return new Promise((resolve) => {
+    return new Promise((resolve,reject) => {
         request(`${urls.getAccessToken}?grant_type=client_credential&appid=${APPID}&secret=${APPSECRET}`,(error,res,body) =>{
             if(error) {
-               return resolve(error);
+            //    return resolve(error);
+                reject(error);
+            } else {
+                resolve(JSON.parse(body));
             }
-            resolve(JSON.parse(body));
         });
     })
 }

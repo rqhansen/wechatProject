@@ -1,8 +1,10 @@
 'use strict';
 const sha1 = require('sha1');
 const { token } = require('../configs');
-
+const updateTokenTask = require('../utils/timedTask');
 module.exports = () =>{
+    // 应用开启定时更新access_token
+    updateTokenTask();
     return async (ctx,next) => {
         const { method,url } = ctx.request;
         if(method.toLowerCase() != 'get' || !url.includes('mp/rq')) {

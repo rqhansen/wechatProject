@@ -1,7 +1,7 @@
 const fs = require('fs');
 const request = require('request');
 const {urls: { upLoadTemporyMaterial,upLoadPermantMaterial} } = require('../configs/configs');
-const  { getLocalAccessToken } = require('./handleToken');
+const  { getLocalAccessToken,updateAccessToken,storeAccessToken } = require('./handleToken');
 
 /**
  * 上传临时素材

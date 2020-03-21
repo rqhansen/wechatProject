@@ -61,7 +61,6 @@ const handleMsg = async (ctx) => {
                         hQMusicUrl: 'https://m3ws.kugou.com/kgsong/ryczpf2.html',
                         thumbMediaId: musicReply.media_id
                     });
-                    console.log(musicReply);
              ctx.body = tpl(reply);
         } 
         // else if(Content === '视频') {
@@ -99,7 +98,6 @@ const handleMsg = async (ctx) => {
                         msgType: 'voice',
                         mediaId: voiceReply.media_id
                     });
-                    console.log(reply);
              ctx.body = tpl(reply);
         } else if(Content === '位置') {
             reply = Object.assign({},reply,{
