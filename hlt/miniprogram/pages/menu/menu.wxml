@@ -1,0 +1,40 @@
+<view class="container menu">
+    <view class="page-body">
+        <view class="page-section">
+            <view class="search-wrap">
+                <view class="search-body flex flex-align-center">
+                    <icon class="s-icon" type="search" size="24" color="#999"></icon>
+                    <input value="" type="text" placeholder="请输入菜品名称" confirm-type="search"
+                        maxlength="140" bindconfirm="search">
+                    </input>
+                </view>
+            </view>
+            <view class="marque-wrap">
+                <view class="marque-body flex flex-align-center">
+                    <view class="iconfont iconlaba"></view>
+                    <view class="content-wrap">
+                        <view id="marqueContent" class="content">
+                            <text>热烈祝贺商水金记胡辣汤开业,请放心点餐,营业时间: 05:00-10:00</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="divider-wrap">
+                <view class="divider"></view>
+            </view>
+            <view class="menu-cate-wrap">
+                <view class="menu-cate-body flex">
+                    <view class="menu-list">
+                        <scroll-view class="" scroll-y="true">
+                            
+                        </scroll-view>
+                    </view>
+                    <view class="menu-detail flex-item">
+                    
+                    </view>
+                </view>
+
+            </view> 
+        </view>
+    </view>
+</view>

@@ -1,0 +1,58 @@
+<view class="container">
+  <view class="page-body">
+    <view class="page-section">
+     <swiper autoplay="{{true}}" interval="{{4000}}" duration="{{800}}"
+            indicator-dots="{{true}}" indicator-active-color="#de8c17">
+        <block wx:for="{{bannerList}}" wx:key="index">
+          <swiper-item>
+            <image src="{{item.url}}" mode="heightFixed" lazy-load="{{true}}"></image>
+          </swiper-item>
+        </block>
+     </swiper>
+     <view class="title-wrap">
+        <text>商水县金记胡辣汤</text>
+      </view> 
+      <view class="store-info-wrap flex flex-align-center">
+        <view class="lf flex-item flex flex-column flex-align-space-between"
+              bindtap="openMap">
+          <view class="flex flex-align-center">
+            <view class="iconfont iconico_home_committed"></view>
+            <view><text class="time">营业事件:</text><text>05:00-11:00</text></view>
+          </view>
+          <view class="flex flex-align-center addre-wrap">
+            <view class="iconfont iconweizhi"></view>
+            <view class="addre"><text>新城路北段路西金记胡辣汤</text></view>
+          </view>
+        </view>
+        <view class="divider-y"></view>
+        <view class="rt flex flex-column flex-align-center"
+              bindtap="callPhone">
+          <view class="iconfont icontelephone"></view>
+          <view><text>电话</text></view>
+        </view>
+      </view>
+      <view class="menu-wrap">
+        <view class="menu-body flex">
+            <view class="menu-item flex flex-align-center flex-column"
+                  bindtap="orderFood">
+              <view class="iconfont icondiancan"></view>
+              <view class="menu-text">在线点餐</view>
+            </view>
+        </view>
+      </view>
+      <view class="store-pics-wrap">
+        <view class="store-pics">
+            <view class="title">
+              <text>门店照片</text>
+            </view>
+            <scroll-view class="pics-wrap" scroll-x="true" scroll-with-animation="true">
+              <view wx:for="{{storePics}}" wx:key="index" class="pic-item"
+                  bindtap="preViewImg" data-index="{{index}}">
+                <image src="{{item.url}}" mode="aspectFill" lazy-load="true"></image>
+              </view>
+            </scroll-view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

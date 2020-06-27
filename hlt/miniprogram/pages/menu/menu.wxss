@@ -1,0 +1,31 @@
+.page-section .search-wrap {
+  padding: 16rpx 20rpx;
+}
+.page-section .search-wrap .search-body {
+  padding: 14rpx;
+  background: rgba(153, 153, 153, 0.1);
+  border-radius: 10rpx;
+}
+.page-section .search-wrap .search-body .s-icon {
+  margin-right: 10rpx;
+}
+.page-section .marque-wrap {
+  padding: 0 20rpx;
+}
+.page-section .marque-wrap .marque-body {
+  color: var(--themeColor);
+}
+.page-section .marque-wrap .marque-body .content-wrap {
+  margin-left: 10rpx;
+  white-space: nowrap;
+  font-size: 24rpx;
+  overflow: hidden;
+}
+.page-section .divider {
+  height: 10rpx;
+  margin-top: 16rpx;
+  background: rgba(153, 153, 153, 0.1);
+}
+.page-section .menu-cate-wrap .menu-list {
+  width: 180rpx;
+}

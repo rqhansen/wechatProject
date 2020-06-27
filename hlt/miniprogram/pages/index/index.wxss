@@ -1,0 +1,100 @@
+.page-section swiper {
+  height: 320rpx;
+}
+.page-section image {
+  width: 100%;
+  height: 100%;
+}
+.page-section .title-wrap {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 36rpx;
+}
+.page-section .store-info-wrap {
+  font-size: 26rpx;
+  color: var(--grayColor);
+}
+.page-section .store-info-wrap .lf {
+  padding-left: 50rpx;
+}
+.page-section .store-info-wrap .lf .iconico_home_committed {
+  font-size: 24rpx;
+}
+.page-section .store-info-wrap .lf .iconweizhi {
+  font-size: 28rpx;
+}
+.page-section .store-info-wrap .lf .time {
+  margin-left: 12rpx;
+}
+.page-section .store-info-wrap .lf .addre-wrap {
+  margin: 10rpx 0 0 -4rpx;
+}
+.page-section .store-info-wrap .lf .addre {
+  margin-left: 12rpx;
+}
+.page-section .store-info-wrap .rt {
+  width: 160rpx;
+}
+.page-section .store-info-wrap .rt .icontelephone {
+  font-size: 44rpx;
+}
+.page-section .store-info-wrap .divider-y {
+  width: 2rpx;
+  height: 76rpx;
+  background: var(--lineBgColor);
+  transform: scaleX(0.5);
+}
+.page-section .menu-wrap {
+  margin: 30rpx 0;
+}
+.page-section .menu-wrap .menu-body {
+  position: relative;
+}
+.page-section .menu-wrap .menu-body:before,
+.page-section .menu-wrap .menu-body:after {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  content: '';
+  background: var(--lineBgColor);
+  height: 2rpx;
+  transform: scaleY(0.5);
+}
+.page-section .menu-wrap .menu-body:before {
+  top: 0;
+}
+.page-section .menu-wrap .menu-body:after {
+  bottom: 0;
+}
+.page-section .menu-wrap .menu-body .menu-item {
+  width: 25%;
+  padding: 20rpx 0;
+}
+.page-section .menu-wrap .menu-body .menu-item:first-child {
+  padding-left: 20rpx;
+}
+.page-section .menu-wrap .menu-body .icondiancan {
+  font-size: 64rpx;
+  color: var(--themeColor);
+}
+.page-section .menu-wrap .menu-body .menu-text {
+  font-size: 24rpx;
+}
+.page-section .store-pics-wrap {
+  padding-left: 60rpx;
+}
+.page-section .store-pics-wrap .title {
+  font-size: 24rpx;
+  margin-bottom: 20rpx;
+}
+.page-section .store-pics-wrap .pics-wrap {
+  width: 100%;
+  height: 180rpx;
+  white-space: nowrap;
+}
+.page-section .store-pics-wrap .pic-item {
+  display: inline-block;
+  width: 180rpx;
+  height: 100%;
+  margin-right: 20rpx;
+}
