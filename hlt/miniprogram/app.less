@@ -15,10 +15,13 @@ page {
     --themeColor: #de8c17;
     --grayColor: #999;
     --lineBgColor: #ccc;
+    --sectionBgColor: rgba(153, 153, 153, .1);
+    --redColor: #be1204;
     font-size: 28rpx;
 }
 
 image {
+  display: block;
     width: 100%;
 }
 
@@ -34,6 +37,10 @@ image {
   justify-content: center;
 }
 
+.flex-justify-space-between {
+  justify-content: space-between;
+}
+
 .flex-align-center {
   align-items: center;
 }
@@ -44,4 +51,10 @@ image {
 
 .flex-column {
     flex-direction: column;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

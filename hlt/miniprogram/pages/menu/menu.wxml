@@ -1,6 +1,8 @@
 <view class="container menu">
     <view class="page-body">
         <view class="page-section">
+
+            <!-- 搜索 -->
             <view class="search-wrap">
                 <view class="search-body flex flex-align-center">
                     <icon class="s-icon" type="search" size="24" color="#999"></icon>
@@ -9,6 +11,9 @@
                     </input>
                 </view>
             </view>
+            <!-- 搜索结束 -->
+
+            <!-- 跑马灯 -->
             <view class="marque-wrap">
                 <view class="marque-body flex flex-align-center">
                     <view class="iconfont iconlaba"></view>
@@ -19,22 +24,72 @@
                     </view>
                 </view>
             </view>
+            <!-- 跑马灯结束 -->
+
+            <!-- 分割线 -->
             <view class="divider-wrap">
                 <view class="divider"></view>
             </view>
+            <!-- 分割线结束 -->
+
+            <!-- 菜单列表 -->
             <view class="menu-cate-wrap">
                 <view class="menu-cate-body flex">
                     <view class="menu-list">
-                        <scroll-view class="" scroll-y="true">
-                            
+                        <scroll-view class="menu-scroll-view" scroll-y="true">
+                            <view class="menu-item {{idx===currIndex ?'active': ''}}"  wx:for="{{menuList}}" wx:key="idx" wx:for-index="idx"
+                                bindtap="switchMenu" data-switchindex="{{idx}}">
+                                <text>{{item.title}}</text>
+                            </view>
                         </scroll-view>
                     </view>
                     <view class="menu-detail flex-item">
-                    
+                        <scroll-view class="menu-scroll-view" scroll-y="true" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="scrollMenu" bindtouchstart="touchstart">
+                            <view class="menu-detail-item"  wx:for="{{menuList}}" wx:key="idx" wx:for-index="idx" wx:for-item="item">
+                                <view class="title"><text>{{item.title}}</text></view>
+                                <view class="menu flex flex-justify-space-between"  wx:for="{{item.menuList}}" wx:key="index" wx:for-item="menuItem">
+                                    <view class="lf" bindtap="previewImage" data-src="{{menuItem.url}}"> 
+                                        <image src="{{menuItem.url}}" mode="aspectFit" lazy-load="{{true}}" bindload="loadImage" data-src="{{menuItem.url}}"></image>
+                                    </view>
+                                    <view class="rt flex-item flex flex-column flex-justify-space-between">
+                                        <view class="name ellipsis">{{menuItem.name}}<text wx-if="{{menuItem.remark}}">/{{menuItem.remark}}</text></view>
+                                        <view class="price">
+                                            <view>¥<text class="money">{{menuItem.price}}</text><text>¥{{menuItem.old_price}}</text></view>
+                                        </view>
+                                    </view>
+                                    <view class="add-wrap"><view class="add iconfont icontianjia"></view></view>
+                                </view>
+                            </view>
+                        </scroll-view>
                     </view>
                 </view>
-
             </view> 
+            <!-- 菜单列表结束 -->
+            
+            <!-- 结算 -->
+            <view class="count-wrap">
+                <view class="flex count-body">
+                    <view class="lf flex-item">
+                        <view class="count-num-wrap">
+                            <view class="flex count-num-body">
+                                <view class="shopping-car-body">
+                                    <view class="shopping-car">
+                                        <text class="iconfont icongwc"></text>
+                                    </view>
+                                    <view class="dot-wrap">
+                                        <view class="dot ellipsis">2</view>
+                                    </view>
+                                </view>
+                                <view class="total-money">¥<text class="money">0</text></view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="rt">
+                        <view class="text-wrap"><text>选好了</text></view>
+                    </view>
+                </view>
+            </view>
+            <!-- 结算结束 -->
         </view>
     </view>
 </view>
