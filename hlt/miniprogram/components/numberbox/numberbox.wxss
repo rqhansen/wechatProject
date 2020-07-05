@@ -1,0 +1,8 @@
+.number-box-wrap .number-box .iconfont {
+  font-size: 40rpx;
+  color: var(--blueColor);
+}
+.number-box-wrap .number-box .count {
+  width: 70rpx;
+  text-align: center;
+}

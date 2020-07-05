@@ -11,6 +11,7 @@ page {
     position: relative;
     height: 100%;
     .search-wrap {
+        height: 106rpx;
         padding: 16rpx 20rpx;
         .search-body {
             padding: 14rpx;
@@ -23,7 +24,8 @@ page {
     }
 
     .marque-wrap {
-        padding:0 20rpx;
+        height: 52rpx;
+        padding: 0 20rpx 16rpx;
         .marque-body {
             color: var(--themeColor);
             .content-wrap {
@@ -36,7 +38,6 @@ page {
     }
 
     .divider-wrap {
-        margin-top: 16rpx;
         .divider {
             height: 10rpx;
             background: var(--sectionBgColor);
@@ -44,7 +45,7 @@ page {
     }
 
     .menu-cate-wrap {
-        height: calc(100% - 106rpx - 36rpx - 26rpx - 100rpx);
+        overflow: hidden;
         .menu-cate-body {
             height: 100%;
         }
@@ -79,6 +80,7 @@ page {
                     height: 202rpx;
                     border-bottom: 2rpx solid var(--sectionBgColor);
                     padding-bottom: 20rpx;
+                    overflow: hidden;
                     &:not(:last-child ) {
                         margin-bottom: 20rpx;
                     }
@@ -95,6 +97,7 @@ page {
                 padding-left: 20rpx;
                 margin-bottom: 16rpx;
                 font-size: 30rpx;
+                overflow: hidden;
                 &::before {
                     position: absolute;
                     left: 0;
@@ -128,55 +131,63 @@ page {
             }
             .name {
                 width: 100%;
+                font-size: 32rpx;
             }
-            .add-wrap {
+            .update-dish-wrap {
                 position: absolute;
-                right: 0;
-                bottom: -2rpx;
-            }
-            .add {
-                color: var(--lineBgColor);
-                font-size: 50rpx;
+                right: 2rpx;
+                bottom: 22rpx;
             }
         }
     }
     
     .count-wrap {
-        position: absolute;
-        left: 0;
-        bottom: 0;
+        position: relative;
+        height: 100rpx;
         width: 100%;
+        overflow: hidden;
+        z-index: 4;
         .count-body {
             height: 100rpx;
             .lf {
                 position: relative;
                 background: rgba(0, 0, 0, .75);
                 .count-num-wrap {
-                    position: absolute;
+                    position: fixed;
                     left: 20rpx;
-                    top: -46rpx;
+                    bottom: 18rpx;
                     z-index: 2;
                 }
                 .shopping-car-body {
                     position: relative;
                 }
                 .shopping-car {
-                    width: 120rpx;
-                    height: 120rpx;
+                    width: 100rpx;
+                    height: 100rpx;
                     border-radius: 50%;
-                    background: #fff;
-                    border: 8rpx solid rgba(0, 0, 0, .7);
+                    background: rgba(32, 32, 32);
+                    border: 8rpx solid #323233;
                     text-align: center;
-                    line-height: 110rpx;
+                    line-height: 90rpx;
+                    box-shadow: 0 0 4rpx rgba(0, 0, 0, .7);
+                    &.active {
+                        background: var(--blueColor);
+                        .icongwc {
+                            color: #fff;
+                            filter: grayscale(0);
+                        }
+                    }
+                    
                 }
                 .icongwc {
                     color: var(--redColor);
-                    font-size: 56rpx;
+                    font-size: 46rpx;
+                    filter: grayscale(100%);
                 }
                 .dot-wrap {
                     position: absolute;
-                    left: 80rpx;
-                    top: 0;
+                    left: 70rpx;
+                    top: -5rpx;
                 }
                 .dot {
                     width: 38rpx;
@@ -190,25 +201,90 @@ page {
                     -webkit-text-size-adjust: 100%;
                 }
                 .total-money {
-                    margin-left: 10rpx;
+                    margin: 46rpx 0 0 10rpx;
                     color: #fff;
-                    line-height: 190rpx;
-                    font-size: 30rpx;
                 }
                 .money {
                     margin-left: 6rpx;
                     font-size: 40rpx;
                     font-weight: bold;
                 }
+                .empty {
+                    font-size: 22rpx;
+                    color: var(--grayColor);
+                }
             }
             .rt {
                 width: 210rpx;
-                background: var(--redColor);
+                background: rgba(0, 0, 0, .7);
+                &.active {
+                    background: var(--greenColor);
+                    .text-wrap {
+                        color: #fff;
+                    }
+                }
                 .text-wrap {
                     text-align: center;
                     line-height: 100rpx;
-                    color: #fff;
+                    font-size: 36rpx;
+                    color: var(--grayColor);
                 }
+            }
+        }
+    }
+
+    .added-product-popup-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+        z-index: 2;
+        opacity: 0
+    }
+
+    .popup-product-list-wrap {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 100rpx;
+        background: #fff;
+        z-index: 3;
+        transform: translate3d(0,100%,0);
+        .product-list-title {
+            padding: 20rpx 30rpx;
+            color: #333;
+            font-size: 32rpx;
+            background-color: #ccc;
+            .clear {
+                margin-left: 10rpx;
+                font-size: 28rpx;
+            }
+        }
+        .product-list-body {
+            max-height: 500rpx;
+            padding-left: 30rpx;
+        }
+        .product-item {
+            height: 100rpx;
+            padding: 35rpx 30rpx 35rpx;
+            &:not(:last-child) {
+                border-bottom: 2rpx solid var(--sectionBgColor);
+            }
+        }
+        .product-name {
+            width: 40%;
+            font-size: 32rpx;
+        }
+        .product-item-money {
+            margin-right: 20rpx;
+            // font-size: 36rpx;
+            color: var(--redColor);
+            text {
+                font-weight: bold;
+                font-size: 40rpx;
             }
         }
     }

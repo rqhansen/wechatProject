@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "numberbox": "../../components/numberbox/numberbox"
+  },
   "navigationBarTitleText": "在线点餐"
 }

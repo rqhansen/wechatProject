@@ -1,0 +1,9 @@
+<view class="number-box-wrap">
+    <view class="flex flex-align-center number-box">
+        <block wx:if="{{showMinus}}">
+            <view class="iconfont iconcut minus" bindtap="minus"></view>
+            <view class="count">{{dishAmount}}</view>
+        </block>
+        <view class="plus iconfont iconadd" bindtap="plus"></view>
+    </view>
+</view>

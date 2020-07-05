@@ -1,7 +1,6 @@
 <view class="container menu">
     <view class="page-body">
-        <view class="page-section">
-
+        <view class="page-section flex flex-column">
             <!-- 搜索 -->
             <view class="search-wrap">
                 <view class="search-body flex flex-align-center">
@@ -33,7 +32,7 @@
             <!-- 分割线结束 -->
 
             <!-- 菜单列表 -->
-            <view class="menu-cate-wrap">
+            <view class="menu-cate-wrap flex-item">
                 <view class="menu-cate-body flex">
                     <view class="menu-list">
                         <scroll-view class="menu-scroll-view" scroll-y="true">
@@ -45,11 +44,11 @@
                     </view>
                     <view class="menu-detail flex-item">
                         <scroll-view class="menu-scroll-view" scroll-y="true" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="scrollMenu" bindtouchstart="touchstart">
-                            <view class="menu-detail-item"  wx:for="{{menuList}}" wx:key="idx" wx:for-index="idx" wx:for-item="item">
+                            <view class="menu-detail-item"  wx:for="{{menuList}}" wx:key="menuIndex" wx:for-index="menuIndex" wx:for-item="item">
                                 <view class="title"><text>{{item.title}}</text></view>
-                                <view class="menu flex flex-justify-space-between"  wx:for="{{item.menuList}}" wx:key="index" wx:for-item="menuItem">
-                                    <view class="lf" bindtap="previewImage" data-src="{{menuItem.url}}"> 
-                                        <image src="{{menuItem.url}}" mode="aspectFit" lazy-load="{{true}}" bindload="loadImage" data-src="{{menuItem.url}}"></image>
+                                <view class="menu flex flex-justify-space-between"  wx:for="{{item.menuList}}" wx:key="foodIndex" wx:for-item="menuItem" wx:for-index="foodIndex">
+                                    <view class="lf" bindtap="previewImage" data-src="{{menuItem.url}}">
+                                        <image src="{{menuItem.url}}" mode="aspectFit" lazy-load="{{true}}" data-src="{{menuItem.url}}"></image>
                                     </view>
                                     <view class="rt flex-item flex flex-column flex-justify-space-between">
                                         <view class="name ellipsis">{{menuItem.name}}<text wx-if="{{menuItem.remark}}">/{{menuItem.remark}}</text></view>
@@ -57,7 +56,10 @@
                                             <view>¥<text class="money">{{menuItem.price}}</text><text>¥{{menuItem.old_price}}</text></view>
                                         </view>
                                     </view>
-                                    <view class="add-wrap"><view class="add iconfont icontianjia"></view></view>
+                                    <view class="update-dish-wrap flex flex-align-center">
+                                        <numberbox showMinus="{{menuItem.orderCount > 0}}" dishAmount="{{menuItem.orderCount}}" bindplus="plusDish" bindminus="minusDish" 
+                                            data-menu-index="{{menuIndex}}" data-dish-index="{{foodIndex}}" data-dish="{{menuItem}}" />
+                                    </view>
                                 </view>
                             </view>
                         </scroll-view>
@@ -73,23 +75,57 @@
                         <view class="count-num-wrap">
                             <view class="flex count-num-body">
                                 <view class="shopping-car-body">
-                                    <view class="shopping-car">
+                                    <view class="shopping-car {{choiceProduct.totalCount?'active': ''}}"
+                                        bindtap="switchPopup">
                                         <text class="iconfont icongwc"></text>
                                     </view>
-                                    <view class="dot-wrap">
-                                        <view class="dot ellipsis">2</view>
+                                    <view class="dot-wrap" wx:if="{{choiceProduct.totalCount}}">
+                                        <view class="dot ellipsis">{{choiceProduct.totalCount}}</view>
                                     </view>
                                 </view>
-                                <view class="total-money">¥<text class="money">0</text></view>
+                                <view class="total-money">
+                                    <text class='empty' wx:if="{{!choiceProduct.totalMoney}}">未选购商品</text>
+                                    <block wx:else>
+                                        ¥<text class="money">{{choiceProduct.totalMoney}}</text>
+                                    </block>
+                                </view>
                             </view>
                         </view>
                     </view>
-                    <view class="rt">
+                    <view class="rt {{choiceProduct.totalCount?'active': ''}}">
                         <view class="text-wrap"><text>选好了</text></view>
                     </view>
                 </view>
             </view>
             <!-- 结算结束 -->
+            <!-- popup弹层结束-->
+            <view class="added-product-popup-wrap" wx:if="{{showPopup}}"></view>
+            <!-- popup弹层结束 -->
+            <!-- product列表弹层 -->
+            <view class="popup-product-list-wrap">
+                <view class="product-list-section">
+                    <view class="product-list-title flex flex-justify-space-between flex-align-center">
+                        <view><text>已选商品</text></view>
+                        <view class="flex flex-align-center" bindtap="clearAll">
+                            <text class="iconfont iconclear"></text>
+                            <text class="clear">清空</text>
+                        </view>
+                    </view>
+                    <scroll-view scroll-y="true" class="product-list-body" wx:if="{{showPopup}}">
+                        <view class="flex flex-align-center flex-justify-space-between product-item" wx:if="{{menuItem.orderCount}}" wx:for="{{choiceProduct.productList}}" wx:key="_id" wx:for-item="menuItem">
+                            <view class="product-name ellipsis">{{menuItem.name}}</view>
+                            <view class="flex flex-align-center flex-space-between product-price-count">
+                                <view class="product-item-money">¥<text>{{menuItem.orderMoney}}</text></view>
+                                <view class="update-dish-wrap">
+                                    <numberbox showMinus="{{menuItem.orderCount > 0}}" dishAmount="{{menuItem.orderCount}}" bindplus="plusDish" bindminus="minusDish" 
+                                            data-menu-index="{{menuItem.menuIndex}}" data-dish-index="{{menuItem.dishIndex}}" data-dish="{{menuItem}}"/>
+                                </view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                </view>
+            </view>
+            <!-- product列表弹层结束 -->
         </view>
     </view>
 </view>

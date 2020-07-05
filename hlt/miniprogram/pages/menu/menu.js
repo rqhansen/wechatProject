@@ -6,100 +6,37 @@ Page({
     menuList: [],
     currIndex: 0,
     boundHeights: [],
-    scrollTop: 0
+    scrollTop: 0,
+    choiceProduct: {
+      productList: []
+    },
+    showPopup: false
   },
   scrollFromSwitchMenu: false,
   throttleScrollFn: '',
   openW: false,
   totalMenus: 0,
-  imageLength: 0,
+  canSwitchPopup: true,
   async onLoad() {
     // 获取菜单列表
     const res = this.hasStorageData();
     if (!res) {
+      wx.showLoading()
       await this.getMenus();
+      wx.hideLoading();
       return;
     }
-    showLoading();
     this.setData({
       menuList: res
     });
+
   },
   async onReady(){
-    // 执行跑马灯
     this.initAnimation();
-    let query = wx.createSelectorQuery();
-    query.selectAll('.menu-detail-item').boundingClientRect(res => {
-      const eleHeights = res.map(ele => ele.height);
-      let boundHeights = [];
-      eleHeights.forEach((height,idx) => {
-        let itemHeight = height;
-        if (idx !== 0) {
-          itemHeight = boundHeights[idx-1] + height;
-        }
-        boundHeights.push(parseInt(itemHeight));
-      });
-      this.setData({
-        boundHeights
-      });
-    }).exec();
+    this.getBoundHeight();
   },
 
-  touchstart() {
-    console.log(111);
-    this.scrollFromSwitchMenu = false;
-  },
-
-  // 监听滚动
-  scrollMenu(e) {
-    if (this.scrollFromSwitchMenu) return;
-    let that = this;
-    let { scrollTop } = e.detail;
-    let boundHeights = this.data.boundHeights;
-
-    if (!this.throttleScrollFn) {
-      this.throttleScrollFn = throttle(handleScrollFn,50);
-    }
-
-    this.throttleScrollFn(scrollTop);
-
-    function handleScrollFn() {
-      let findIndex = 0;
-      for (let i = boundHeights.length; i >= 0 ; i--) {
-        let scrollTop = arguments[0][0];
-        if (boundHeights[i] < scrollTop) {
-          findIndex = i + 1;
-          break;
-        }
-      }
-      that.setData({
-        currIndex: findIndex
-      });
-    }
-  },
-
-    // 切换菜单
-  switchMenu(e) {
-    const { switchindex } = e.currentTarget.dataset;
-    
-    if (this.data.currIndex === switchindex) return;
-    this.scrollFromSwitchMenu = true;
-
-    let scrollToTop = this.data.boundHeights[switchindex - 1];
-    this.setData({
-      scrollTop: scrollToTop || 0,
-      currIndex : switchindex
-    });
-  },
-
-  loadImage(e) {
-    this.imageLength++;
-    if (this.imageLength === this.totalMenus) {
-      wx.hideLoading();
-    }
-  },
-
-  // 判断是否存在缓存数据
+  // 判断是否缓存了菜品菜单
   hasStorageData() {
     const res = wx.getStorageSync('menuData');
     if (!res) return false;
@@ -111,11 +48,175 @@ Page({
     return menuList;
   },
 
+  // 增加菜品
+  plusDish(e) {
+    this.updateDish(e, 'plusDish');
+  },
+
+  // 减少菜品
+  minusDish(e) {
+    this.updateDish(e, 'minusDish');
+  },
+
+  updateDish(e,flag) {
+    this.handleAddProAnimation();
+    let { dish, menuIndex, dishIndex} = e.currentTarget.dataset;
+    let orderCount = dish.orderCount || 0;
+    if (flag === 'plusDish') {
+      orderCount++;
+    } else if (flag === 'minusDish') {
+      orderCount--;
+    }
+    // 更新单个菜品数目和金额
+    dish.orderCount = orderCount;
+    dish.orderMoney = orderCount * dish.price;
+    dish.dishIndex = dishIndex;
+    dish.menuIndex = menuIndex;
+    this.data.menuList[menuIndex].menuList[dishIndex] = dish;
+    this.setData({
+      menuList: this.data.menuList
+    });
+    // 更新总菜品的订单数和总金额
+    this.updateDishToOrder(dish,flag);
+  },
+
+  updateDishToOrder(dish,flag) {
+    let choiceProduct = this.data.choiceProduct;
+    choiceProduct.totalCount = choiceProduct.totalCount || 0;
+    choiceProduct.totalMoney = choiceProduct.totalMoney || 0;
+    if (flag === 'plusDish') {
+      choiceProduct.totalCount++;
+    } else if (flag === 'minusDish'){
+      choiceProduct.totalCount--;
+    }
+    if (!choiceProduct.productList.length) { // 添加第一个菜品
+      choiceProduct.totalMoney = dish.orderMoney;
+      choiceProduct.productList.push(dish);
+      this.setData({
+        choiceProduct: choiceProduct
+      });
+      return;
+    }
+
+    for (let i = 0, len = this.data.choiceProduct.productList.length; i < len; i++) {
+      let produce = this.data.choiceProduct.productList[i];
+      if (produce._id === dish._id) {
+        choiceProduct.productList[i] = dish;
+        if (flag === 'plusDish') {
+          choiceProduct.totalMoney += dish.price * 1;
+        } else if (flag === 'minusDish') {
+          choiceProduct.totalMoney -= dish.price * 1;
+        }
+        break;
+      } 
+      if (i === len - 1) {
+        choiceProduct.productList.push(dish);
+        choiceProduct.totalMoney += dish.price * 1;
+      }
+    }
+    this.setData({
+      choiceProduct: choiceProduct
+    });
+  },
+
+  clearAll() {
+    if (!this.canSwitchPopup) return;
+    this.canSwitchPopup = false;
+    this.setData({
+      choiceProduct: {
+        productList: []
+      },
+    },async () => {
+      await Promise.all([this.hidePop(),this.hideProductList()]);
+      this.setData({
+        showPopup: false
+      }, () => {
+        this.canSwitchPopup = true;
+        let menuList = this.data.menuList;
+        menuList.forEach((item,idx) => {
+          item.menuList.forEach((menu,menuIndex) => {
+          if (menu.orderCount) {
+            delete menu.orderCount;
+            delete menu.orderMoney;
+            menuList[idx].menuList[menuIndex] = menu;
+          }
+          })
+        })
+        this.setData({
+          menuList
+        });
+      })
+    });
+  },
+
+  getBoundHeight() {
+    let query = wx.createSelectorQuery();
+    let boundHeights = [];
+    query.selectAll('.menu-detail-item').boundingClientRect(res =>{
+      res.forEach((item,idx) => {
+        let height = item.height;
+        if (idx > 0) {
+          height = boundHeights[idx-1] + height;
+        }
+        boundHeights.push(height);
+      })
+      this.setData({
+        boundHeights
+      })
+    }).exec();
+  },
+  
+  touchstart() {
+    this.scrollFromSwitchMenu = false;
+  },
+
+  // 监听滚动
+  scrollMenu(e) {
+    if (this.scrollFromSwitchMenu) return;
+    let { scrollTop } = e.detail;
+    let boundHeights = this.data.boundHeights;
+
+    if (!this.throttleScrollFn) {
+      this.throttleScrollFn = throttle(handleScrollFn.bind(this),20);
+    }
+
+    this.throttleScrollFn(scrollTop);
+
+    function handleScrollFn() {
+      let findIndex = 0;
+      for (let i = boundHeights.length; i >= 0 ; i--) {
+        let scrollTop = arguments[0][0];
+        if (scrollTop > boundHeights[i]) {
+          findIndex = i + 1;
+          break;
+        }
+      }
+      this.setData({
+        currIndex: findIndex
+      });
+    };
+  },
+
+    // 切换菜单
+  switchMenu(e) {
+    const { switchindex } = e.currentTarget.dataset;
+    if (this.data.currIndex === switchindex) return;
+    this.setData({
+      currIndex : switchindex
+    });
+    this.scrollFromSwitchMenu = true;
+
+    let scrollToTop = this.data.boundHeights[switchindex - 1];
+    this.setData({
+      scrollTop: scrollToTop || 0,
+      currIndex : switchindex
+    });
+  },
+
   // 获取菜单列表
   async getMenus() {
     showLoading();
     const res = await wx.cloud.callFunction({name: 'getMenuList'});
-    console.log(res);
     wx.hideLoading();
     if (!res) {
       return;
@@ -135,21 +236,96 @@ Page({
     })
   },
 
-  // 浏览图片大图
-  previewImage(e) {
-    if (this.openW) return;
-    this.openW = true; 
-    const src = e.currentTarget.dataset.src;
-    wx.previewImage({
-      current: src,
-      urls: [src],
-      complete: ()=>{
-        this.openW = false;
-      }
+  // 添加菜品动画
+  handleAddProAnimation() {
+    this.clearAnimation('.shopping-car-body',() => {
+      startproductAnimation.bind(this)();
+    });
+    function startproductAnimation() {
+      this.animate('.shopping-car-body',[
+        { scale: [1,1]},
+        { scale: [.7, .7]},
+        { scale: [1,1]},
+      ], 100, () => {
+        this.clearAnimation('.shopping-car-body');
+      })
+    }
+  },
+
+  // 切换popup
+  async switchPopup() {
+    if (!this.canSwitchPopup) return;
+    if (!this.data.choiceProduct.productList.length) {
+      return;
+    }
+    this.canSwitchPopup = false;
+    if (!this.data.showPopup) { // 显示
+      this.setData({
+        showPopup: true
+      },async () => {
+        await Promise.all([this.showPop(),this.showProductList()]);
+        this.canSwitchPopup = true;
+      });
+      return;
+    }
+    // 隐藏popup
+    await Promise.all([this.hidePop(),this.hideProductList()]);
+    this.setData({
+      showPopup: false
+      }, () => {
+      this.canSwitchPopup = true;
     });
   },
 
-  // 初始化动画
+  showPop() {
+    return new Promise(resolve => {
+      this.animate('.added-product-popup-wrap',[
+        { opacity: 0 },
+        { opacity: 1 }
+      ],100, () => {
+        resolve();
+      })
+    }) 
+  },
+
+  showProductList() {
+    return new Promise(resolve => {
+      this.animate('.popup-product-list-wrap',[
+        { translate3d: [0,'100%',0] },
+        { translate3d: [0,0,0]}
+      ], 100, () => {
+        resolve();
+      });
+    })
+  },
+
+  hidePop() {
+    return new Promise(resolve => {
+      this.animate('.added-product-popup-wrap',[
+        { opacity: 1 },
+        { opacity: 0 }
+      ],100,() => {
+        this.clearAnimation('.added-product-popup-wrap',() => {
+          resolve();
+        });
+      })
+    })
+  },
+
+  hideProductList() {
+    return new Promise(resolve =>{
+      this.animate('.popup-product-list-wrap',[
+        { translate3d: [0,0,0] },
+        { translate3d: [0,'100%',0]}
+      ],100,() =>{
+        this.clearAnimation('.popup-product-list-wrap',() => {
+          resolve();
+        });
+      })
+    })
+  },
+
+  //跑马灯动画
   async initAnimation() {
     const query = wx.createSelectorQuery();
     query.select('#marqueContent').boundingClientRect(res => {
@@ -160,10 +336,9 @@ Page({
       this.duration = parseInt(this.offsetLeft / 0.045);
       this.startAnimation();
     }).exec();
-
   },
 
-  // 执行动画
+  // 开始跑马灯动画
   startAnimation() {
     this.animate('#marqueContent',[
       {
@@ -175,25 +350,37 @@ Page({
         translate3d:[-this.offsetLeft-50,0,0]
       },
     ], this.duration, () => {
-      this.proceedMarque();
+      proceedMarque.bind(this)();
      })
+
+    function proceedMarque() {
+      this.animate('#marqueContent',[
+        {
+          ease: 'linear',
+          translate3d:[this.offsetLeft+50,0,0]
+        },
+        {
+          ease: 'linear',
+          translate3d:[-this.offsetLeft-100,0,0]
+        },
+      ], this.duration * 2, () => {
+          proceedMarque.bind(this)();
+      }
+      )
+    }
   },
 
-  // 再次执行动画
-  proceedMarque() {
-    this.animate('#marqueContent',[
-      {
-        ease: 'linear',
-        translate3d:[this.offsetLeft+50,0,0]
-      },
-      {
-        ease: 'linear',
-        translate3d:[-this.offsetLeft-100,0,0]
-      },
-    ], this.duration * 2, () => {
-        this.proceedMarque();
-     }
-    )
+  previewImage(e) {
+    if (this.openW) return;
+    this.openW = true; 
+    const src = e.currentTarget.dataset.src;
+    wx.previewImage({
+      current: src,
+      urls: [src],
+      complete: ()=>{
+        this.openW = false;
+      }
+    });
   },
 
   search() {
