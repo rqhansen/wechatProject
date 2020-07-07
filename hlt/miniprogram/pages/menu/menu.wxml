@@ -1,11 +1,11 @@
-<view class="container menu">
+<view class="menu">
     <view class="page-body">
         <view class="page-section flex flex-column">
             <!-- 搜索 -->
             <view class="search-wrap">
                 <view class="search-body flex flex-align-center">
                     <icon class="s-icon" type="search" size="24" color="#999"></icon>
-                    <input value="" type="text" placeholder="请输入菜品名称" confirm-type="search"
+                    <input value="{{searchVal}}" type="text" placeholder="请输入菜品名称" confirm-type="search"
                         maxlength="140" bindconfirm="search">
                     </input>
                 </view>
@@ -57,8 +57,11 @@
                                         </view>
                                     </view>
                                     <view class="update-dish-wrap flex flex-align-center">
-                                        <numberbox showMinus="{{menuItem.orderCount > 0}}" dishAmount="{{menuItem.orderCount}}" bindplus="plusDish" bindminus="minusDish" 
-                                            data-menu-index="{{menuIndex}}" data-dish-index="{{foodIndex}}" data-dish="{{menuItem}}" />
+                                        <block wx:if="{{menuItem.price}}">
+                                            <numberbox showMinus="{{menuItem.orderCount > 0}}" dishAmount="{{menuItem.orderCount}}" bindplus="plusDish" bindminus="minusDish" 
+                                                data-menu-index="{{menuIndex}}" data-dish-index="{{foodIndex}}" data-dish="{{menuItem}}" />
+                                        </block>
+                                        <block wx:else><text class="free">免费</text></block>
                                     </view>
                                 </view>
                             </view>
@@ -87,12 +90,13 @@
                                     <text class='empty' wx:if="{{!choiceProduct.totalMoney}}">未选购商品</text>
                                     <block wx:else>
                                         ¥<text class="money">{{choiceProduct.totalMoney}}</text>
+                                        <text class="old_money">¥{{choiceProduct.oldTotalMoney}}</text>
                                     </block>
                                 </view>
                             </view>
                         </view>
                     </view>
-                    <view class="rt {{choiceProduct.totalCount?'active': ''}}">
+                    <view class="rt {{choiceProduct.totalCount?'active':''}}" bindtap="choiceReady">
                         <view class="text-wrap"><text>选好了</text></view>
                     </view>
                 </view>
@@ -115,7 +119,9 @@
                         <view class="flex flex-align-center flex-justify-space-between product-item" wx:if="{{menuItem.orderCount}}" wx:for="{{choiceProduct.productList}}" wx:key="_id" wx:for-item="menuItem">
                             <view class="product-name ellipsis">{{menuItem.name}}</view>
                             <view class="flex flex-align-center flex-space-between product-price-count">
-                                <view class="product-item-money">¥<text>{{menuItem.orderMoney}}</text></view>
+                                <view class="product-item-money">
+                                    <text class="order-money">¥{{menuItem.orderMoney}}</text>
+                                </view>
                                 <view class="update-dish-wrap">
                                     <numberbox showMinus="{{menuItem.orderCount > 0}}" dishAmount="{{menuItem.orderCount}}" bindplus="plusDish" bindminus="minusDish" 
                                             data-menu-index="{{menuItem.menuIndex}}" data-dish-index="{{menuItem.dishIndex}}" data-dish="{{menuItem}}"/>

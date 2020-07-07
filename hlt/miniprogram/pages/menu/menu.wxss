@@ -134,6 +134,9 @@ page .page-body {
   right: 2rpx;
   bottom: 22rpx;
 }
+.page-section .menu-cate-wrap .menu-detail .free {
+  color: var(--grayColor);
+}
 .page-section .count-wrap {
   position: relative;
   height: 100rpx;
@@ -146,7 +149,7 @@ page .page-body {
 }
 .page-section .count-wrap .count-body .lf {
   position: relative;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--blackColor);
 }
 .page-section .count-wrap .count-body .lf .count-num-wrap {
   position: fixed;
@@ -199,10 +202,15 @@ page .page-body {
   margin: 46rpx 0 0 10rpx;
   color: #fff;
 }
-.page-section .count-wrap .count-body .lf .money {
+.page-section .count-wrap .count-body .lf .old_money {
   margin-left: 6rpx;
+  color: var(--grayColor);
+  text-decoration: line-through;
+  font-size: 24rpx;
+}
+.page-section .count-wrap .count-body .lf .money {
+  margin: 0 2rpx;
   font-size: 40rpx;
-  font-weight: bold;
 }
 .page-section .count-wrap .count-body .lf .empty {
   font-size: 22rpx;
@@ -210,7 +218,7 @@ page .page-body {
 }
 .page-section .count-wrap .count-body .rt {
   width: 210rpx;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--lightBlackColor);
 }
 .page-section .count-wrap .count-body .rt.active {
   background: var(--greenColor);
@@ -270,10 +278,10 @@ page .page-body {
   font-size: 32rpx;
 }
 .page-section .popup-product-list-wrap .product-item-money {
-  margin-right: 20rpx;
+  margin-right: 50rpx;
   color: var(--redColor);
 }
-.page-section .popup-product-list-wrap .product-item-money text {
-  font-weight: bold;
+.page-section .popup-product-list-wrap .product-item-money .order-money {
+  margin-right: 2rpx;
   font-size: 40rpx;
 }

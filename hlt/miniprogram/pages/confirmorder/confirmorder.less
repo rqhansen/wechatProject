@@ -1,0 +1,140 @@
+page {
+    background: #f7f7f7;
+}
+
+.confirm-order {
+    .store-map {
+        position: relative;
+        width: 100%;
+        height: 300rpx;
+        .cover-view {
+            position: absolute;
+            left: 40rpx;
+            top: 50rpx;
+        }
+        .text-wrap {
+            height: 50rpx;
+            padding: 0 20rpx;
+            line-height: 50rpx;
+            background: var(--blueColor);
+            border-radius: 60rpx;
+            color:#fff;
+            font-size: 26rpx;
+        }
+    }
+    .order-list-wrap {
+        padding: 0 20rpx 120rpx;
+        .order-list-section {
+            padding: 0 30rpx;
+            background: #fff;
+        }
+        .store-name {
+            line-height: 100rpx;
+        }
+        .order-list {
+            position: relative;
+            &:before,&:after {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                content: '';
+                background: var(--lineBgColor);
+                height: 2rpx;
+                transform: scaleY(0.5);
+            }
+            .order-item {
+                padding: 20rpx 0; 
+                &.empty {
+                    height: 200rpx;
+                    line-height: 160rpx;
+                    text-align: center;
+                    color: var(--grayColor);
+                }
+            }
+            &:before {
+                top: 0;
+            }
+            &:after {
+                bottom: 0;
+            }
+            .lf {
+                width: 60%;
+                padding-right: 30rpx;
+                image {
+                    width: 80rpx;
+                    height: 80rpx;
+                    border: 2rpx solidd var(--lineBgColor);
+                    margin-right: 20rpx;
+                }
+                .name {
+                    flex: 1;
+                }
+            }
+            .center {
+                width: 30%;
+            }
+
+            .right {
+                width: 10%;
+            }
+            .money {
+                font-size: 40rpx;
+            }
+        }
+        .total-money {
+            padding: 20rpx 0;
+            text-align: right;
+            .money {
+                font-size: 40rpx;
+                font-weight: bold;
+            }
+            .calcute {
+                margin-right: 8rpx;
+            }
+        }
+    }
+    .pay-tool-bar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100rpx;
+        .tool-bar {
+            display: flex;
+        }
+        .lf {
+            flex: 1;
+            background:#444444;
+            .money-info {
+                height: 100rpx;
+                padding-left: 25rpx;
+                color: #fff;
+            }
+            .divider {
+                margin: 0 10rpx;
+            }
+            .divider, .divider + text {
+                font-size: 26rpx;
+                color: var(--grayColor);
+            }
+            .total-money {
+                font-size: 40rpx;
+            }
+        }
+        .rt {
+            width: 210rpx;
+            background: var(--lightBlackColor);
+            &.active {
+                background: var(--greenColor);
+            }
+        }
+        .pay-btn {
+            color: #fff;
+            font-size: 36rpx;
+            line-height: 100rpx;
+            text-align: center;
+        }
+    }   
+}
+
+

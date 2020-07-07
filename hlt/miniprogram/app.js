@@ -1,5 +1,5 @@
 //app.js
-// 牛肉，红萝卜豆腐，韭菜鸡蛋，雪菜
+import { openid_expired_added } from './configs/constant.js';
 App({
   onLaunch: function () {
     
@@ -16,6 +16,35 @@ App({
       })
     }
 
-    this.globalData = {}
+    // 每次进到页面检查openid
+    this.getOpenid();
+  },
+
+  globalData: {},
+
+  async getOpenid() {
+    const openid = this.globalData.openid || wx.getStorageSync('openid') || await this.getCloudOpenid();
+    return openid;
+  },
+
+  async getCloudOpenid() {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    })
+    const openid = (await wx.cloud.callFunction({name: 'getOpenid'})).result.OPENID;
+    wx.hideLoading();
+    this.globalData.openid = openid;
+    wx.setStorageSync('openid', openid);
+    return openid;
+  },
+
+  getUserInfo() {
+    return this.globalData.userInfo || wx.getStorageSync('userInfo');
+  },
+
+  storageUserInfo(userInfo) {
+    this.globalData.userInfo = userInfo;
+    wx.setStorageSync('userInfo', userInfo);
   }
 })

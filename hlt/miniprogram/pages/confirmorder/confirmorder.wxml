@@ -1,0 +1,66 @@
+<view class="container confirm-order">
+    <view class="page-body">
+        <view class="page-section">
+            <!-- 地图 -->
+            <map latitude="{{storeLocation.latitude}}" longitude="{{storeLocation.longitude}}" 
+                scale="{{20}}" show-compass="{{true}}" markers="{{markers}}" class="store-map">
+                <cover-view class="cover-view">
+                    <cover-view class="text-wrap">到店自取</cover-view>
+                </cover-view>
+            </map>
+            <!-- 地图结束 -->
+
+            <!-- 确定订单列表 -->
+            <view class="order-list-wrap">
+                <view class="order-list-section">
+                    <view class="store-name">
+                        <text class="name">金记胡辣汤</text>
+                        <text class="addre">(商水新城路店)</text>
+                    </view>
+                    <view class="order-list">
+                        <block wx:if="{{dishInfo.productList.length}}" >
+                          <view class="order-item flex flex-align-center" wx:for="{{dishInfo.productList}}" wx:key="_id" wx:for-item="dish" wx:for-index="dishIndex">
+                            <view class="lf flex flex-align-center">
+                                <image src="{{dish.url}}" mode="aspectFill"/>
+                                <view class="name ellipsis">{{dish.name}}</view>
+                            </view>
+                            <view class="center">
+                                <text>×{{dish.orderCount}}</text>
+                            </view>
+                            <view>¥<text class="money">{{dish.orderMoney}}</text></view>
+                            </view>
+                            <view class="total-money">
+                                <view><text class="calcute">小计</text>¥<text class="money">{{dishInfo.totalMoney}}</text></view>
+                            </view>
+                        </block>
+                        <block wx:else >
+                            <view class="order-item empty">您还没有选择菜品哦~~~</view>
+                        </block>
+                    </view>
+                </view>
+            </view>
+            <!-- 确认订单列表结束 -->
+
+            <!-- 支付 -->
+            <view class="pay-tool-bar flex">
+                <view class="tool-bar">
+                    <view class="lf">
+                        <view class="money-info flex flex-align-center">
+                            <text class="total-money">¥{{dishInfo.totalMoney}}</text>
+                            <block wx:if="{{dishInfo.oldTotalMoney - dishInfo.totalMoney}}">
+                                <text class="divider">|</text>
+                                <text>已优惠¥{{dishInfo.oldTotalMoney - dishInfo.totalMoney}}</text>
+                            </block>
+                        </view>
+                    </view>
+                    <view class="rt {{dishInfo.totalMoney?'active': ''}}">
+                        <view class="pay-btn" bindtap="requestPay">
+                            <text>确认支付</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 支付结束 -->
+        </view>
+    </view>
+</view>

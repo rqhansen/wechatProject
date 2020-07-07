@@ -67,6 +67,21 @@
 					"id": -1,
 					"name": "pages/menu/menu",
 					"pathName": "pages/menu/menu",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/confirmorder/confirmorder",
+					"pathName": "pages/confirmorder/confirmorder",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/userauth/userauth",
+					"pathName": "pages/userauth/userauth",
+					"query": "",
 					"scene": null
 				}
 			]

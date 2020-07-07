@@ -1,0 +1,136 @@
+page {
+  background: #f7f7f7;
+}
+.confirm-order .store-map {
+  position: relative;
+  width: 100%;
+  height: 300rpx;
+}
+.confirm-order .store-map .cover-view {
+  position: absolute;
+  left: 40rpx;
+  top: 50rpx;
+}
+.confirm-order .store-map .text-wrap {
+  height: 50rpx;
+  padding: 0 20rpx;
+  line-height: 50rpx;
+  background: var(--blueColor);
+  border-radius: 60rpx;
+  color: #fff;
+  font-size: 26rpx;
+}
+.confirm-order .order-list-wrap {
+  padding: 0 20rpx 120rpx;
+}
+.confirm-order .order-list-wrap .order-list-section {
+  padding: 0 30rpx;
+  background: #fff;
+}
+.confirm-order .order-list-wrap .store-name {
+  line-height: 100rpx;
+}
+.confirm-order .order-list-wrap .order-list {
+  position: relative;
+}
+.confirm-order .order-list-wrap .order-list:before,
+.confirm-order .order-list-wrap .order-list:after {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  content: '';
+  background: var(--lineBgColor);
+  height: 2rpx;
+  transform: scaleY(0.5);
+}
+.confirm-order .order-list-wrap .order-list .order-item {
+  padding: 20rpx 0;
+}
+.confirm-order .order-list-wrap .order-list .order-item.empty {
+  height: 200rpx;
+  line-height: 160rpx;
+  text-align: center;
+  color: var(--grayColor);
+}
+.confirm-order .order-list-wrap .order-list:before {
+  top: 0;
+}
+.confirm-order .order-list-wrap .order-list:after {
+  bottom: 0;
+}
+.confirm-order .order-list-wrap .order-list .lf {
+  width: 60%;
+  padding-right: 30rpx;
+}
+.confirm-order .order-list-wrap .order-list .lf image {
+  width: 80rpx;
+  height: 80rpx;
+  border: 2rpx solidd var(--lineBgColor);
+  margin-right: 20rpx;
+}
+.confirm-order .order-list-wrap .order-list .lf .name {
+  flex: 1;
+}
+.confirm-order .order-list-wrap .order-list .center {
+  width: 30%;
+}
+.confirm-order .order-list-wrap .order-list .right {
+  width: 10%;
+}
+.confirm-order .order-list-wrap .order-list .money {
+  font-size: 40rpx;
+}
+.confirm-order .order-list-wrap .total-money {
+  padding: 20rpx 0;
+  text-align: right;
+}
+.confirm-order .order-list-wrap .total-money .money {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+.confirm-order .order-list-wrap .total-money .calcute {
+  margin-right: 8rpx;
+}
+.confirm-order .pay-tool-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100rpx;
+}
+.confirm-order .pay-tool-bar .tool-bar {
+  display: flex;
+}
+.confirm-order .pay-tool-bar .lf {
+  flex: 1;
+  background: #444444;
+}
+.confirm-order .pay-tool-bar .lf .money-info {
+  height: 100rpx;
+  padding-left: 25rpx;
+  color: #fff;
+}
+.confirm-order .pay-tool-bar .lf .divider {
+  margin: 0 10rpx;
+}
+.confirm-order .pay-tool-bar .lf .divider,
+.confirm-order .pay-tool-bar .lf .divider + text {
+  font-size: 26rpx;
+  color: var(--grayColor);
+}
+.confirm-order .pay-tool-bar .lf .total-money {
+  font-size: 40rpx;
+}
+.confirm-order .pay-tool-bar .rt {
+  width: 210rpx;
+  background: var(--lightBlackColor);
+}
+.confirm-order .pay-tool-bar .rt.active {
+  background: var(--greenColor);
+}
+.confirm-order .pay-tool-bar .pay-btn {
+  color: #fff;
+  font-size: 36rpx;
+  line-height: 100rpx;
+  text-align: center;
+}

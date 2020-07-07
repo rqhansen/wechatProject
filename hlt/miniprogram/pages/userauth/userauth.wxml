@@ -1,0 +1,12 @@
+<view class="container user-auth-wrap">
+  <view class="page-body">
+    <view class="page-section">
+      <view wx:if="{{canIuse}}" class="auth-btn-wrap">
+        <button size="default" type="primary"
+          hover-class="button-hover" hover-stop-propagation="true" 
+           open-type="getUserInfo" bindgetuserinfo="getUserInfo">微信授权登录</button>
+      </view>
+      <view wx:else class="update-tip">请升级微信版本!</view>
+    </view>
+  </view>
+</view>
