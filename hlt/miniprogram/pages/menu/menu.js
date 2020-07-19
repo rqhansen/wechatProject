@@ -407,7 +407,17 @@ Page({
       return;
     }
     if (!this.canSwitchPopup) return;
-    const strChoiceProduct = JSON.stringify(this.data.choiceProduct);
+    let choiceProduct = JSON.stringify(this.data.choiceProduct);
+    choiceProduct = JSON.parse(choiceProduct);
+    choiceProduct.productList.forEach(item => {
+      delete item.dishIndex;
+      delete item.menuIndex;
+      delete item.cate_id;
+      delete item.old_price;
+      delete item._id;
+      delete item.remark;
+    })
+    let strChoiceProduct = JSON.stringify(choiceProduct);
     wx.navigateTo({
       url: `/pages/confirmorder/confirmorder?dishList=${strChoiceProduct}`
     });

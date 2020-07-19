@@ -9,7 +9,7 @@ page {
 .confirm-order .store-map .cover-view {
   position: absolute;
   left: 40rpx;
-  top: 50rpx;
+  top: 40rpx;
 }
 .confirm-order .store-map .text-wrap {
   height: 50rpx;
@@ -100,6 +100,7 @@ page {
 }
 .confirm-order .pay-tool-bar .tool-bar {
   display: flex;
+  width: 100%;
 }
 .confirm-order .pay-tool-bar .lf {
   flex: 1;
