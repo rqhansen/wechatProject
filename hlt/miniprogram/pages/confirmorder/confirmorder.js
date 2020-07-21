@@ -79,7 +79,6 @@ Page({
     const totalFee = 1;
     // 调用微信的统一下单
     const result = await this.unifyOrder({ totalFee, outTradeNo });
-    wx.hideLoading();
     if (result.returnCode === 'FAIL') {
       wx.showToast({
         title: result.returnMsg,
@@ -101,41 +100,58 @@ Page({
       createTime: new Date().getTime(),
       payment: result.payment
     });
-    
+    wx.hideLoading();
     const { nonceStr, package: payPackage, paySign, signType, timeStamp} = result.payment;
-    // 调起微信支付
-    wx.requestPayment({
+    const res = await app.requestPayment({
       timeStamp,
       nonceStr,
       package: payPackage,
       signType,
-      paySign,
-      success: (result)=>{
-        // 用户点击完成按钮后才触发
-        // console.log(result);
-        wx.switchTab({
-          url: '/pages/order/order'
-        });
-      },
-      fail: (msg)=>{
-        if (msg.errMsg === 'requestPayment:fail cancel') {
-          wx.setStorageSync('from', 'confirmorder');
-          wx.switchTab({
-            url: '/pages/order/order',
-          });
-          return
-        }
-        wx.showToast({
-          title: '糟糕，支付开了个小差，请稍后重试',
-          icon: 'none',
-          duration: 3000,
-          mask: true,
-        });
-      },
-      complete: ()=>{
-        this.hasClickToPay = false;
-      }
+      paySign
     });
+    this.hasClickToPay = false;
+    if (res === 1) {
+      wx.setStorageSync('from', 'confirmorder');
+    } else if (res === 2) {
+      wx.showToast({
+        title: '支付异常，请稍后重试',
+        icon: 'none',
+        duration: 3000,
+        mask: true,
+      });
+    }
+    wx.switchTab({url: '/pages/order/order'});
+    // 调起微信支付
+    // wx.requestPayment({
+    //   timeStamp,
+    //   nonceStr,
+    //   package: payPackage,
+    //   signType,
+    //   paySign,
+    //   success: (result)=>{
+    //     wx.switchTab({
+    //       url: '/pages/order/order'
+    //     });
+    //   },
+    //   fail: (msg)=>{
+    //     if (msg.errMsg === 'requestPayment:fail cancel') {
+    //       wx.setStorageSync('from', 'confirmorder');
+    //       wx.switchTab({
+    //         url: '/pages/order/order',
+    //       });
+    //       return
+    //     }
+    //     wx.showToast({
+    //       title: '糟糕，支付开了个小差，请稍后重试',
+    //       icon: 'none',
+    //       duration: 3000,
+    //       mask: true,
+    //     });
+    //   },
+    //   complete: ()=>{
+    //     this.hasClickToPay = false;
+    //   }
+    // });
   },
 
   // 判断用户是否注册过

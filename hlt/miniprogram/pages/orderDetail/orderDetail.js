@@ -1,4 +1,6 @@
-// miniprogram/pages/orderDetail.js
+import { timeStampToString } from '../../utils/formatDate.js';
+const app = getApp();
+
 Page({
 
   /**
@@ -34,34 +36,46 @@ Page({
         return;
       }
       const { result: { data } } = res;
-      data[0].createTime = this.timeStampToString(data[0].createTime);
+      data[0].createTime = timeStampToString(data[0].createTime);
       this.setData({
         orderDetail: data[0]
       })
+  },
+
+  // 支付
+  async pay(e) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true,
+    });
+    const { payment } = e.currentTarget.dataset;
+    const res = await app.requestPayment({
+      timeStamp: payment.timeStamp,
+      nonceStr: payment.nonceStr,
+      package: payment.package,
+      signType: payment.signType,
+      paySign: payment.paySign
+    });
+    wx.hideLoading();
+    if (res === 0) {
+      wx.setStorageSync('from', 'orderDetail');
+      wx.switchTab({
+        url: '/pages/order/order'
+      });
+      return;
+    }
+    if (res === 2) {
+      wx.showToast({
+        title: '支付失败，请稍后重试',
+        icon: 'none',
+        duration: 1000,
+        mask: true,
+      });
+    }
   },
   goHome() {
     wx.switchTab({
       url: '/pages/index/index',
     });
-  },
-  timeStampToString(timeStamp){
-    const dt = new Date(timeStamp);
-    const y = dt.getFullYear();
-
-    let m = dt.getMonth();
-    m = m >= 10 ? m : `0${m}`;
-
-    let d = dt.getDate();
-    d = d >= 10 ? d : `0${d}`;
-
-    let h = dt.getHours();
-    h = h >= 10 ? h : `0${h}`;
-
-    let minute = dt.getMinutes();
-    minute = minute >= 10 ? minute : `0${minute}`;
-
-    let s = dt.getSeconds();
-    s = s >= 10 ? s : `0${s}`;
-    return `${y}-${m}-${d} ${h}:${minute}:${s}`;
   }
 })

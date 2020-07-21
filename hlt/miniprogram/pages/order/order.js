@@ -1,3 +1,4 @@
+const app = getApp();
 
 Page({
   /**
@@ -121,41 +122,27 @@ Page({
     });
     this.hasClickPay = true;
     const { payment: { timeStamp, nonceStr, package: payPackage, signType, paySign } } = e.currentTarget.dataset;
-    wx.requestPayment({
+    const res = await app.requestPayment({
       timeStamp,
       nonceStr,
       package: payPackage,
       signType,
-      paySign,
-      success: (result)=>{
-        wx.hideLoading();
-        this.hasClickPay = false;
-        wx.reLaunch({
-          url: '/pages/order/order'
-        });
-      },
-      fail: (msg)=>{
-        this.hasClickPay = false;
-        if (msg.errMsg === 'requestPayment:fail cancel') {
-          wx.showToast({
-            title: '您取消了支付，点击按钮可重新发起支付',
-            icon: 'none',
-            duration: 1000,
-            mask: true,
-          });
-          return;
-        }
-        wx.showToast({
-          title: '糟糕，支付开了个小差，请稍后重试',
-          icon: 'none',
-          duration: 1000,
-          mask: true,
-        });
-      },
-      complete: ()=>{
-        wx.hideLoading();
-      }
+      paySign
     });
+    wx.hideLoading();
+    this.hasClickPay = false;
+    if (res === 0) {
+      wx.reLaunch({
+        url: '/pages/order/order',
+      });
+    } else if (res === 2) {
+      wx.showToast({
+        title: '支付失败，请稍后重试',
+        icon: 'none',
+        duration: 1000,
+        mask: true,
+      });
+    }
   },
 
   // 去订单详情

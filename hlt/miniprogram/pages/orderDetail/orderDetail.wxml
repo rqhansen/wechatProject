@@ -9,7 +9,7 @@
                 <view class="food-list-wrap">
                     <view class="rect-section">
                         <view class="list-title">
-                            <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
+                            <text bindtap="goHome">商水玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
                         </view>
                         <view class="list">
                             <view class="list-item flex flex-justify-space-between" wx:for="{{orderDetail.foodList}}" wx:for-index="idx" wx:for-item="food" wx:key="_id">
@@ -49,9 +49,9 @@
                      </view>
                 </view>
             </view>
-            <view class="tool-btn">
+            <view wx:if="{{orderDetail.orderStatus===0}}" class="tool-btn">
                 <view class="tool-section">
-                    <view class="btn">立即付款</view>
+                    <view class="btn" bindtap="pay" data-payment="{{orderDetail.payment}}">立即付款</view>
                 </view>
             </view>
         </view>

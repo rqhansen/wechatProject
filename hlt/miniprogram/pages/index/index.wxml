@@ -17,7 +17,7 @@
               bindtap="openMap">
           <view class="flex flex-align-center">
             <view class="iconfont iconico_home_committed"></view>
-            <view><text class="time">营业事件:</text><text>05:00-11:00</text></view>
+            <view><text class="time">营业时间:</text><text>05:00-11:00</text></view>
           </view>
           <view class="flex flex-align-center addre-wrap">
             <view class="iconfont iconweizhi"></view>

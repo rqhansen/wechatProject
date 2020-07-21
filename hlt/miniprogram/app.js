@@ -46,5 +46,29 @@ App({
   storageUserInfo(userInfo) {
     this.globalData.userInfo = userInfo;
     wx.setStorageSync('userInfo', userInfo);
+  },
+
+  // 支付
+  requestPayment(payment) {
+    return new Promise((resolve,reject) => {
+      wx.requestPayment({
+        timeStamp: payment.timeStamp,
+        nonceStr: payment.nonceStr,
+        package: payment.package,
+        signType: payment.signType,
+        paySign: payment.paySign,
+        success: (result)=>{
+          resolve(0);
+        },
+        fail: (msg)=>{
+          if (msg.errMsg === 'requestPayment:fail cancel') {
+            resolve(1);
+          } else {
+            resolve(2);
+          }
+        },
+        complete: () => {}
+      });
+    })
   }
 })

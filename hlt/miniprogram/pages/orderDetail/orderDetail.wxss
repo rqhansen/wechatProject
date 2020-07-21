@@ -25,6 +25,7 @@ page {
   background: #fff;
   border-radius: 12rpx;
   padding: 20rpx;
+  padding-bottom: 0;
 }
 .container .detail-section .food-list-wrap .list-title {
   font-size: 32rpx;
@@ -33,7 +34,7 @@ page {
   padding: 30rpx 0;
   position: relative;
 }
-.container .detail-section .food-list-wrap .list-item:after {
+.container .detail-section .food-list-wrap .list-item:not(:last-child):after {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -55,7 +56,7 @@ page {
 }
 .container .detail-section .food-list-wrap .name {
   flex: 3;
-  padding-left: 20rpx;
+  padding: 0 20rpx;
   word-break: break-all;
   font-size: 28rpx;
 }
