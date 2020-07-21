@@ -1,0 +1,59 @@
+<view class="container">
+    <view class="page-body">
+        <view class="page-section">
+            <view class="top-bg"></view>
+            <view class="detail-section">
+                <view class="title">
+                    <text class="text">{{orderDetail.orderStatus===0?'待付款':'已完成'}}</text>
+                </view>
+                <view class="food-list-wrap">
+                    <view class="rect-section">
+                        <view class="list-title">
+                            <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
+                        </view>
+                        <view class="list">
+                            <view class="list-item flex flex-justify-space-between" wx:for="{{orderDetail.foodList}}" wx:for-index="idx" wx:for-item="food" wx:key="_id">
+                                <view class="pic-wrap">
+                                    <image class="pic" src="{{food.url}}" mode="aspectFill" lazy-load="true"></image>
+                                </view>
+                                <view class="name">{{food.name}}</view>
+                                <view class="price-info">
+                                    <view class="">¥{{food.price}}</view>
+                                    <view class="count">×{{food.orderCount}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                 <view wx:if="{{orderDetail.orderNo}}" class="order-info rect-section">
+                     <view class="order-title">订单信息</view>
+                     <view class="info-item flex flex-justify-space-between">
+                         <text>商品总价</text>
+                         <text>¥{{orderDetail.totalFee}}</text>
+                     </view>
+                     <view class="info-item flex flex-justify-space-between">
+                         <text>订单总价</text>
+                         <text>¥{{orderDetail.totalFee}}</text>
+                     </view>
+                     <view class="info-item flex flex-justify-space-between">
+                         <text>需付款总价</text>
+                         <text>¥{{orderDetail.totalFee}}</text>
+                     </view>
+                     <view class="info-item flex flex-justify-space-between">
+                         <text>订单号 :</text>
+                         <text>{{orderDetail.orderNo}}</text>
+                     </view>
+                     <view class="info-item flex flex-justify-space-between">
+                         <text>下单时间 :</text>
+                         <text>{{orderDetail.createTime}}</text>
+                     </view>
+                </view>
+            </view>
+            <view class="tool-btn">
+                <view class="tool-section">
+                    <view class="btn">立即付款</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

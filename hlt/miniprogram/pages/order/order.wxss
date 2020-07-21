@@ -1,1 +1,145 @@
-/* miniprogram/pages/order/order.wxss */
+page {
+  height: 100%;
+  background: var(--sectionBgColor);
+}
+.container {
+  height: 100%;
+}
+.container .page-body {
+  height: 100%;
+}
+.container .page-body .page-section {
+  height: 100%;
+}
+.container .tab {
+  position: relative;
+  height: 100rpx;
+  background: #fff;
+}
+.container .tab:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 1rpx;
+  background: var(--lineBgColor);
+  transform: scaleY(0.5);
+}
+.container .tab .tab-item {
+  position: relative;
+  text-align: center;
+  height: 100%;
+  line-height: 100rpx;
+}
+.container .tab .tab-item.active {
+  color: var(--redColor);
+}
+.container .tab .tab-item.active:after {
+  position: absolute;
+  left: 50%;
+  bottom: 16rpx;
+  display: block;
+  content: '';
+  width: 20%;
+  height: 4rpx;
+  transform: translateX(-50%);
+  background: var(--redColor);
+}
+.container .order-scroll-wrap {
+  height: calc(100% - 100rpx);
+  overflow: hidden;
+}
+.container .order-list {
+  padding: 20rpx;
+}
+.container .order-list .title {
+  font-size: 32rpx;
+}
+.container .order-list .title .iconyoujiantou {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+}
+.container .order-list .title .to-pay {
+  color: var(--themeColor);
+}
+.container .order-list .title .done-pay {
+  color: var(--grayColor);
+}
+.container .order-list .order-item {
+  padding: 30rpx 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
+}
+.container .order-list .order-item:not(:last-child) {
+  margin-bottom: 20rpx;
+}
+.container .order-list .order-item .pic-wrap {
+  width: 160rpx;
+  height: 160rpx;
+  overflow: hidden;
+}
+.container .order-list .order-item .pic {
+  height: 100%;
+  border-radius: 10rpx;
+}
+.container .order-list .order-item .food-item {
+  position: relative;
+  padding: 25rpx 0;
+}
+.container .order-list .order-item .food-item:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 0;
+  border-bottom: 1rpx dashed var(--lineBgColor);
+  background: var(--lineBgColor);
+  transform: scaleY(0.5);
+}
+.container .order-list .order-item .food-item:last-child:after {
+  border-bottom-style: solid;
+}
+.container .order-list .order-item .food-item .food-info {
+  padding-left: 20rpx;
+  overflow: hidden;
+}
+.container .order-list .order-item .food-item .food-name {
+  max-width: 80%;
+}
+.container .order-list .order-item .food-item .count {
+  margin-top: 20rpx;
+  color: var(--grayColor);
+}
+.container .order-list .order-item .over-all {
+  padding-top: 20rpx;
+}
+.container .order-list .order-item .over-all .product {
+  color: var(--grayColor);
+}
+.container .order-list .order-item .over-all .iconshangpin {
+  margin-right: 10rpx;
+}
+.container .order-list .order-item .over-all .total {
+  margin-left: 20rpx;
+}
+.container .order-list .order-item .btn-handle {
+  text-align: right;
+  margin-top: 10rpx;
+}
+.container .order-list .order-item .btn-handle .btn-role {
+  display: inline-block;
+  width: 160rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border: 1rpx solid gray;
+  border-radius: 60rpx;
+}
+.container .order-list .order-item .btn-handle .buy-again {
+  color: var(--themeColor);
+  border-color: var(--themeColor);
+}

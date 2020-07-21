@@ -83,6 +83,20 @@
 					"pathName": "pages/userauth/userauth",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/order/order",
+					"pathName": "pages/order/order",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "订单详情",
+					"pathName": "pages/orderDetail/orderDetail",
+					"query": "orderNo=42651635885210287987357247224024",
+					"scene": null
 				}
 			]
 		}

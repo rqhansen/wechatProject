@@ -1,2 +1,55 @@
-<!--miniprogram/pages/order/order.wxml-->
-<text>miniprogram/pages/order/order.wxml</text>
+<view class="container">
+    <view class="page-body">
+        <view class="page-section">
+            <!-- tab -->
+            <view class="flex flex-justify-center flex-align-center tab">
+                <view class="tab-item flex-item {{index==currIndex?'active': ''}}" 
+                    wx:for="{{tabs}}" wx:key="id" bindtap="switchTab" data-tabIndex="{{index}}">
+                    {{item.title}}
+                </view>
+            </view>
+            <!-- tab结束 -->
+            <scroll-view scroll-y="true" class="order-scroll-wrap" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="scroll" bindtouchstart="touchstart">
+                <view class="order-list">
+                    <view class="order-item" wx:for="{{currOrderList}}" wx:for-index="idx" wx:for-item="order" wx:key="_id"> 
+                        <view class="title flex flex-justify-space-between">
+                            <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
+                            <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay">待付款</text>
+                            <text wx:elif="{{order.orderStatus===1}}" class="pay-tip done-pay">已完成</text>
+                        </view>
+                        <view class="food-list" bindtap="goOrderDetail" data-orderNo="{{order.orderNo}}">
+                            <view class="food-item flex flex-justify-flex-start" wx:for="{{order.foodList}}" wx:for-index="foodIdx" wx:for-item="food" wx:key="name">
+                                <view class="pic-wrap">
+                                    <image class="pic" src="{{food.url}}" mode="aspectFill" lazy-load="true"></image>
+                                </view>
+                                <view class="food-info flex-item flex flex-justify-space-between">
+                                    <view class="food-name ellipsis">{{food.name}}</view>
+                                    <view>
+                                        <view>{{food.price}}元</view>
+                                        <view class="count">×{{food.orderCount}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="over-all flex flex-justify-space-between">
+                            <view class="product flex flex-align-center">
+                                <text class="iconfont iconshangpin"></text>
+                                <text>商品</text>
+                            </view>
+                            <view>
+                                <text>共{{order.foodList.length}}件</text>
+                                <text class="total">{{order.totalFee}}元</text>
+                            </view>
+                        </view>
+                        <view wx:if="{{order.orderStatus===0}}" class="btn-handle">
+                            <view class="btn-role buy-again" bindtap="toPay" data-payment="{{order.payment}}">去付款</view>
+                        </view>
+                        <view wx:elif="{{order.orderStatus===1}}" class="btn-handle">
+                            <view class="btn-role" bindtap="orderAgain">再来一单</view>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>      
+        </view>
+    </view>
+</view>

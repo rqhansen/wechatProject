@@ -93,12 +93,13 @@ Page({
       return;
     }
     // 添加一个订单记录， 0表示未支付，1表示已支付
-    this.addOrder({ 
+    await this.addOrder({ 
       totalFee, 
       orderStatus: 0, 
       orderNo: outTradeNo, 
       foodList: this.data.dishInfo.productList,
-      createTime: new Date().getTime()
+      createTime: new Date().getTime(),
+      payment: result.payment
     });
     
     const { nonceStr, package: payPackage, paySign, signType, timeStamp} = result.payment;
@@ -111,15 +112,16 @@ Page({
       paySign,
       success: (result)=>{
         // 用户点击完成按钮后才触发
-        console.log(result);
+        // console.log(result);
+        wx.switchTab({
+          url: '/pages/order/order'
+        });
       },
       fail: (msg)=>{
         if (msg.errMsg === 'requestPayment:fail cancel') {
-          wx.showToast({
-            title: '您取消了支付，点击按钮可重新发起支付',
-            icon: 'none',
-            duration: 3000,
-            mask: true,
+          wx.setStorageSync('from', 'confirmorder');
+          wx.switchTab({
+            url: '/pages/order/order',
           });
           return
         }
@@ -160,7 +162,6 @@ Page({
 
   // 添加订单
   async addOrder(orderInfo) {
-
     const res = await wx.cloud.callFunction({
       name: 'addOrder',
       data: orderInfo
