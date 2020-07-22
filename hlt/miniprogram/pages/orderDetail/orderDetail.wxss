@@ -12,6 +12,7 @@ page {
   color: #fff;
 }
 .container .title .count-time {
+  width: 60%;
   font-size: 26rpx;
 }
 .container .detail-section {

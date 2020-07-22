@@ -58,11 +58,11 @@ Page({
   // 计算倒计时
   setCountTime(diffTime, order) {
     let h = Math.floor(diffTime / (60 * 60 * 1000));
-    h = h > 10 ? h : `0${h}`;
+    h = h >= 10 ? h : `0${h}`;
     let m = Math.floor((diffTime % (60 * 60 * 1000)) / (60 * 1000));
-    m = m > 10 ? m : `0${m}`;
+    m = m >= 10 ? m : `0${m}`;
     let s = Math.floor(((diffTime % (60 * 60 * 1000)) % (60 * 1000)) / (1000));
-    s = s > 10 ? s : `0${s}`;
+    s = s >= 10 ? s : `0${s}`;
     order.timerArr = [h, m, s];
     this.setData({
       orderDetail: order
