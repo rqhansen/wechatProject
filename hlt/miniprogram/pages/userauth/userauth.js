@@ -1,4 +1,4 @@
-// miniprogram/pages/userauth.js
+const app = getApp();
 Page({
 
   /**
@@ -13,7 +13,7 @@ Page({
     const { detail: { userInfo } } = e;
     if (!userInfo) {
       wx.showToast({
-        title: '您拒绝了授权',
+        title: '拒绝授权无法为您提供更好的服务',
         icon: 'none',
         duration: 1000,
         mask: true,
@@ -40,7 +40,8 @@ Page({
       })
       return;
     }
-    wx.setStorageSync('userInfo', userInfo);
+    // wx.setStorageSync('userInfo', userInfo);
+    app.storeUserInfo(userInfo);
     if (result) {
       wx.navigateBack({
         delta: 1

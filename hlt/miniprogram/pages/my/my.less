@@ -1,0 +1,46 @@
+page {
+    height: 100%;
+    background: #f7f7f7;
+}
+.container {
+    .avator-wrap {
+        height: 260rpx;
+        background: #fff;
+        padding: 30rpx 0;
+    }
+    .avator {
+        position: relative;
+        width: 180rpx;
+        height: 180rpx;
+        image {
+            height: 100%;
+            border-radius: 50%;
+        }
+        .iconweixin {
+            position: absolute;
+            right: 8rpx;
+            bottom: 10rpx;
+            font-size: 40rpx;
+            color: #1AAD19;
+        }
+    }
+    .menu-wrap {
+        margin-top: 30rpx;
+        padding: 0 30rpx;
+        .menu-list {
+            background: #fff;
+            border-radius: 12rpx;
+            .menu-item {
+                padding: 30rpx;
+                .iconfont {
+                    margin-bottom: 10rpx;
+                    font-size: 50rpx;
+                    color: var(--themeColor);
+                    + text {
+                        font-size: 24rpx;
+                    }
+                }
+            }
+        }
+    }
+}

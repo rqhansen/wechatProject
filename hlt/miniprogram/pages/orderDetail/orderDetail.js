@@ -58,8 +58,7 @@ Page({
     });
     wx.hideLoading();
     if (res === 0) {
-      wx.setStorageSync('from', 'orderDetail');
-      wx.switchTab({
+      wx.reLaunch({
         url: '/pages/order/order'
       });
       return;

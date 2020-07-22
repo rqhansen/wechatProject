@@ -9,8 +9,9 @@
                 </view>
             </view>
             <!-- tab结束 -->
+            <!-- 内容 -->
             <scroll-view scroll-y="true" class="order-scroll-wrap" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="scroll" bindtouchstart="touchstart">
-                <view class="order-list">
+                <view wx:if="{{currOrderList.length}}" class="order-list">
                     <view class="order-item" wx:for="{{currOrderList}}" wx:for-index="idx" wx:for-item="order" wx:key="_id"> 
                         <view class="title flex flex-justify-space-between">
                             <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
@@ -49,7 +50,11 @@
                         </view>
                     </view>
                 </view>
-            </scroll-view>      
+                <view wx:else class="empty-wrap flex flex-justify-center flex-align-center">
+                    <view class="iconfont iconwushuju"></view>
+                </view>
+            </scroll-view>
+             <!-- 内容结束 -->
         </view>
     </view>
 </view>

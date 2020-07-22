@@ -1,6 +1,5 @@
 // miniprogram/pages/index/index.js
 import { storeLocation } from '../../configs/store_info.js';
-let hasClick = false;
 Page({
 
   /**
@@ -10,6 +9,7 @@ Page({
     bannerList: [],
     storePics: []
   },
+  hasClick: false,
 
   /**
    * 生命周期函数--监听页面加载
@@ -47,7 +47,7 @@ Page({
       });
       return;
     }
-    const data = res.result.data;
+    const data = res.result.data.map(item => item.url);
     this.setData({
       storePics: data
     });
@@ -55,10 +55,10 @@ Page({
 
   // 打开地图
   openMap() {
-    if (hasClick) {
+    if (this.hasClick) {
       return;
     }
-    hasClick = true;
+    this.hasClick = true;
     wx.openLocation({
       latitude : storeLocation.latitude,
 	    longitude : storeLocation.longitude, 
@@ -66,24 +66,21 @@ Page({
       name: '金记胡辣汤',
       address: '新城路北段路西',
       complete: ()=>{
-        hasClick = false;
+        this.hasClick = false;
       }
     });
   },
 
   // 打电话
   callPhone() {
-    if (hasClick) {
+    if (this.hasClick) {
       return;
     }
-    hasClick = true;
+    this.hasClick = true;
     wx.makePhoneCall({
       phoneNumber: '18939600055',
-      success: (result)=>{
-        
-      },
       complete: ()=>{
-        hasClick = false;
+        this.hasClick = false;
       }
     });
   },
@@ -91,31 +88,25 @@ Page({
   // 去订单页面
   orderFood() {
     wx.navigateTo({
-      url: '/pages/menu/menu',
-      success: (result)=>{
-        
-      },
-      fail: ()=>{},
-      complete: ()=>{}
+      url: '/pages/menu/menu'
     });
   },
 
   preViewImg(e) {
-    if (hasClick) {
+    if (this.hasClick) {
       return;
     }
-    hasClick = true;
+    this.hasClick = true;
     const currIndex = e.currentTarget.dataset.index;
     const currImage = this.data.storePics[currIndex];
     wx.previewImage({
       current: currImage,
       urls: this.data.storePics,
-      success: (result)=>{
-        
+      fail: (error)=>{
+        console.log(error);
       },
-      fail: ()=>{},
       complete: ()=>{
-        hasClick = false;
+        this.hasClick = false;
       }
     });
   }

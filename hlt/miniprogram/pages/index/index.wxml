@@ -48,7 +48,7 @@
             <scroll-view class="pics-wrap" scroll-x="true" scroll-with-animation="true">
               <view wx:for="{{storePics}}" wx:key="index" class="pic-item"
                   bindtap="preViewImg" data-index="{{index}}">
-                <image src="{{item.url}}" mode="aspectFill" lazy-load="true"></image>
+                <image src="{{item}}" mode="aspectFill" lazy-load="true"></image>
               </view>
             </scroll-view>
         </view>

@@ -23,7 +23,7 @@ exports.main = async (event, context) => {
       payment: true
     })
     .orderBy('createTime','desc')
-    .limit(5)
+    .limit(10)
     .where(query).get();
     return res;
   } catch (error) {

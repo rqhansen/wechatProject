@@ -143,3 +143,10 @@ page {
   color: var(--themeColor);
   border-color: var(--themeColor);
 }
+.container .empty-wrap {
+  height: 100%;
+}
+.container .empty-wrap .iconwushuju {
+  font-size: 160rpx;
+  color: var(--grayColor);
+}

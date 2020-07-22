@@ -31,27 +31,25 @@ Page({
   orderLists: [],
   oldScrollTops: [],
   isSwitchTab: false,
+  userInfo: '',
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
+    this.userInfo = app.getUserInfo();
+    if (!this.userInfo) {
+      wx.showToast({
+        title: '请先登录哦',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
+    }
     const res = await this.getOrderRecored();
     this.orderLists[0] = res;
   },
 
-  async onShow() {
-    const isFromMenu = wx.getStorageSync('from');
-    if (isFromMenu) {
-      const res = await this.getOrderRecored();
-      this.orderLists[0] = res;
-      this.setData({
-        currIndex: 0,
-        scrollTop: 0
-      })
-      wx.removeStorageSync('from');
-    }
-  },
   // 获取订单记录
   async getOrderRecored(query) {
     wx.showLoading({
@@ -81,6 +79,15 @@ Page({
   async switchTab(e) {
     const { tabindex } = e.currentTarget.dataset;
     if (tabindex === this.data.currIndex) return;
+    if (!app.getUserInfo()) {
+      wx.showToast({
+        title: '请先登录哦',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      });
+      return;
+    }
     if (tabindex === 3) {
       wx.showToast({
         title: '敬请期待',
@@ -178,5 +185,17 @@ Page({
     wx.switchTab({
       url: '/pages/index/index',
     });
+  },
+  async onTabItemTap() {
+    if (!this.userInfo && app.getUserInfo()) {
+      wx.showLoading({
+        title: '加载中...',
+        mask: true,
+      });
+      const res = await this.getOrderRecored();
+      wx.hideLoading();
+      this.orderLists[0] = res;
+    }
+
   }
 })

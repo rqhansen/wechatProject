@@ -1,2 +1,35 @@
-<!--miniprogram/pages/my/my.wxml-->
-<text>miniprogram/pages/my/my.wxml</text>
+<view class="container">
+    <view class="page-body">
+        <view class="page-section">
+            <!-- 头像 -->
+            <view class="avator-wrap flex flex-align-center flex-justify-center">
+                <button wx:if="{{canIUse&&!userInfo}}" class="default" size="default" type="default" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+                    授权登录
+                </button>
+                <view wx:else class="avator">
+                    <image class="" src="{{userInfo.avatarUrl}}" mode="aspectFill" lazy-load="true"></image>
+                    <text class="iconfont iconweixin"></text>
+                </view>
+            </view>
+            <!-- 头像结束 -->
+            <!-- 菜单 -->
+            <view class="menu-wrap">
+                <view class="menu-list flex">
+                    <view class="menu-item flex flex-item flex-column flex-justify-center flex-align-center" bindtap="goOrder">
+                        <text class="iconfont icondingdan"></text><text>我的订单</text>
+                    </view>
+                     <view class="menu-item flex flex-item flex-column flex-justify-center flex-align-center">
+                        <text class="iconfont icondingdan"></text><text>我的订单</text>
+                    </view>
+                     <view class="menu-item flex flex-item flex-column flex-justify-center flex-align-center">
+                        <text class="iconfont icondingdan"></text><text>我的订单</text>
+                    </view>
+                     <view class="menu-item flex flex-item flex-column flex-justify-center flex-align-center">
+                        <text class="iconfont icondingdan"></text><text>我的订单</text>
+                    </view>
+                </view>
+            </view>
+            <!-- 菜单结束 -->
+        </view>
+    </view>
+</view>

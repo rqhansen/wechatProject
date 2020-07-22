@@ -1,11 +1,14 @@
 <view class="container">
     <view class="page-body">
-        <view class="page-section">
+        <view wx:if="{{orderDetail.orderNo}}"  class="page-section">
             <view class="top-bg"></view>
             <view class="detail-section">
+                <!-- 标题 -->
                 <view class="title">
                     <text class="text">{{orderDetail.orderStatus===0?'待付款':'已完成'}}</text>
                 </view>
+                <!-- 标题结束 -->
+                <!-- 菜品列表 -->
                 <view class="food-list-wrap">
                     <view class="rect-section">
                         <view class="list-title">
@@ -25,7 +28,9 @@
                         </view>
                     </view>
                 </view>
-                 <view wx:if="{{orderDetail.orderNo}}" class="order-info rect-section">
+                <!-- 菜品列表结束 -->
+                <!-- 订单 -->
+                <view class="order-info rect-section">
                      <view class="order-title">订单信息</view>
                      <view class="info-item flex flex-justify-space-between">
                          <text>商品总价</text>
@@ -48,6 +53,7 @@
                          <text>{{orderDetail.createTime}}</text>
                      </view>
                 </view>
+                <!-- 订单结束 -->
             </view>
             <view wx:if="{{orderDetail.orderStatus===0}}" class="tool-btn">
                 <view class="tool-section">
