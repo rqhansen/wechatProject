@@ -67,10 +67,13 @@ page {
 .container .order-list .title .done-pay {
   color: var(--grayColor);
 }
+.container .order-list .title .over-time {
+  color: var(--grayColor);
+}
 .container .order-list .order-item {
   padding: 30rpx 20rpx;
   background: #fff;
-  border-radius: 10rpx;
+  border-radius: 12rpx;
 }
 .container .order-list .order-item:not(:last-child) {
   margin-bottom: 20rpx;
@@ -128,7 +131,7 @@ page {
 }
 .container .order-list .order-item .btn-handle {
   text-align: right;
-  margin-top: 10rpx;
+  margin-top: 20rpx;
 }
 .container .order-list .order-item .btn-handle .btn-role {
   display: inline-block;
@@ -142,6 +145,15 @@ page {
 .container .order-list .order-item .btn-handle .buy-again {
   color: var(--themeColor);
   border-color: var(--themeColor);
+}
+.container .order-list .order-item .btn-handle .pay-end {
+  margin: 0 10rpx;
+  font-size: 26rpx;
+  color: var(--redColor);
+}
+.container .order-list .order-item .btn-handle .iconshijian {
+  font-size: 32rpx;
+  color: var(--grayColor);
 }
 .container .empty-wrap {
   height: 100%;

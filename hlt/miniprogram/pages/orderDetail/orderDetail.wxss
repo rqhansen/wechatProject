@@ -11,6 +11,9 @@ page {
   font-size: 36rpx;
   color: #fff;
 }
+.container .title .count-time {
+  font-size: 26rpx;
+}
 .container .detail-section {
   position: absolute;
   left: 0;

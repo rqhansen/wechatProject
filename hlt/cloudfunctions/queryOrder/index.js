@@ -8,7 +8,7 @@ const db = cloud.database();
 // 云函数入口函数
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
-  let query = { 'userInfo.openId': OPENID };
+  let query = { 'openId': OPENID };
   const { orderStatus } = event;
   if (orderStatus!=undefined) {
     query.orderStatus = orderStatus;
@@ -16,6 +16,8 @@ exports.main = async (event, context) => {
   try {
     const res = await db.collection('orders')
     .field({
+      createTime: true,
+      expireTime: true,
       foodList: true,
       orderStatus: true,
       orderNo: true,

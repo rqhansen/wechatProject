@@ -64,11 +64,14 @@ page {
             .done-pay {
                 color: var(--grayColor);
             }
+            .over-time {
+                color: var(--grayColor);
+            }
         }
         .order-item {
             padding: 30rpx 20rpx;
             background: #fff;
-            border-radius: 10rpx;
+            border-radius: 12rpx;
             &:not(:last-child) {
                 margin-bottom: 20rpx;
             }
@@ -127,7 +130,7 @@ page {
             }
             .btn-handle {
                 text-align: right;
-                margin-top: 10rpx;
+                margin-top: 20rpx;
                 .btn-role {
                     display: inline-block;
                     width: 160rpx;
@@ -140,6 +143,15 @@ page {
                 .buy-again {
                     color: var(--themeColor);
                     border-color: var(--themeColor);
+                }
+                .pay-end {
+                    margin: 0 10rpx;
+                    font-size: 26rpx;
+                    color: var(--redColor);
+                }
+                .iconshijian {
+                    font-size: 32rpx;
+                    color: var(--grayColor);
                 }
             }
         }

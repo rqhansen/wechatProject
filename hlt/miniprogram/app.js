@@ -22,11 +22,13 @@ App({
 
   globalData: {},
 
+  // 获取openid
   async getOpenid() {
     const openid = this.globalData.openid || wx.getStorageSync('openid') || await this.getCloudOpenid();
     return openid;
   },
 
+  // 从云端获取openid
   async getCloudOpenid() {
     wx.showLoading({
       title: '加载中...',
@@ -39,10 +41,12 @@ App({
     return openid;
   },
 
+  // 获取本地的用户信息
   getUserInfo() {
     return this.globalData.userInfo || wx.getStorageSync('userInfo');
   },
 
+  // 存储用户信息
   storageUserInfo(userInfo) {
     this.globalData.userInfo = userInfo;
     wx.setStorageSync('userInfo', userInfo);

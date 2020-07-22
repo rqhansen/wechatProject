@@ -70,6 +70,18 @@ Page({
       });
     }
     const { data } = res.result;
+    data.forEach(order => {
+      if (order.orderStatus === 0) {
+        const { expireTime } = order;
+        const now = new Date().getTime();
+        const diffTime = expireTime - now;
+        if (diffTime <= 0) { // 超出2小时，订单过期
+          order.orderExpired = 0;
+        } else {
+          order.orderExpired = Math.floor(diffTime /  (60 * 60 * 1000)) + '小时' + Math.floor((diffTime % (60 * 60 * 1000)) / (60 * 1000)) + '分';
+        }
+      }
+    });
     this.setData({
       currOrderList: data
     });
@@ -123,12 +135,23 @@ Page({
     if (this.hasClickPay ) {
       return;
     }
+    const { expireTime, payment: { timeStamp, nonceStr, package: payPackage, signType, paySign } } = e.currentTarget.dataset;
+    if (new Date().getTime() - expireTime >= 0) {
+      wx.showToast({
+        title: '订单已取消',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      });
+      wx.reLaunch({
+        url: '/pages/order/order'
+      });
+    }
     wx.showLoading({
       title: '加载中...',
       mask: true,
     });
     this.hasClickPay = true;
-    const { payment: { timeStamp, nonceStr, package: payPackage, signType, paySign } } = e.currentTarget.dataset;
     const res = await app.requestPayment({
       timeStamp,
       nonceStr,
@@ -174,9 +197,14 @@ Page({
   },
 
   // 再来一单
-  orderAgain() {
+  orderAgain(e) {
+    const { order } = e.currentTarget.dataset;
+    let newOrder = JSON.stringify({
+      productList: order.foodList,
+      totalMoney: order.totalFee,
+    });
     wx.navigateTo({
-      url: '/pages/menu/menu',
+      url: `/pages/confirmorder/confirmorder?dishList=${newOrder}`,
     });
   },
 

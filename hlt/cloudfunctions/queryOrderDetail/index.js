@@ -13,6 +13,7 @@ exports.main = async (event, context) => {
     const res = await db.collection('orders')
     .field({
       createTime: true,
+      expireTime: true,
       foodList: true,
       orderNo: true,
       orderStatus: true,
@@ -21,7 +22,7 @@ exports.main = async (event, context) => {
     })
     .where({
       orderNo,
-      'userInfo.openId': OPENID
+      'openId': OPENID
     }).get();
     console.log(res);
     return res;

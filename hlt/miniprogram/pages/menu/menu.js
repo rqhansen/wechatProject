@@ -431,7 +431,6 @@ Page({
   },
 
   onHide() {
-    // console.log('hide');
     this.newOpenPage = false;
   },
 
