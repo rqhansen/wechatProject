@@ -1,14 +1,9 @@
-const defOptions = {
-    title: '加载中...',
-    mask: true,
-    duration: 1000
-};
 
-function showLoading(options = defOptions) {
+function showLoading(options = {}) {
     wx.showLoading({
-        title: (options && options.title) || '加载中...',
-        duration: (options && options.duration) || 1000,
-        mask: (options && options.duration) || true,
+        title: options.title || '加载中...',
+        duration: options.duration || 1000,
+        mask: options.mask || true,
     });
 }
 

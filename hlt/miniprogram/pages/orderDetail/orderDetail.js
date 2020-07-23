@@ -35,24 +35,16 @@ Page({
         });
         return;
       }
-      const { result: { data } } = res;
+      const { result: { list: data } } = res;
       let order = data [0];
       order.createTime = timeStampToString(order.createTime);
-      if (order.orderStatus === 1) {
-        this.setData({
-          orderDetail: order
-        });
-        return;
+      this.setData({
+        orderDetail: order
+      });
+      if (order.orderStatus === 0 && !order.orderExpired) { //未过期
+        const diffTime = order.expireTime - new Date().getTime();
+        this.setCountTime(diffTime, order);
       }
-      const diffTime = order.expireTime - new Date().getTime();
-      if (diffTime <= 0) { // 过期
-        order.orderExpired = 0;
-        this.setData({
-          orderDetail: order
-        })
-        return;
-      }
-      this.setCountTime(diffTime, order);
   },
 
   // 计算倒计时
@@ -79,19 +71,7 @@ Page({
 
   // 支付
   async pay(e) {
-    const { payment, expireTime } = e.currentTarget.dataset.order;
-    if (new Date().getTime() - expireTime >= 0) { // 过期
-      wx.showToast({
-        title: '订单已取消',
-        icon: 'none',
-        duration: 1000,
-        mask: true,
-      });
-      wx.reLaunch({
-        url: '/pages/order/order'
-      });
-      return;
-    }
+    const { payment } = e.currentTarget.dataset.order;
     wx.showLoading({
       title: '加载中...',
       mask: true,

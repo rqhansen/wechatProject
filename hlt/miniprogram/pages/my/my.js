@@ -73,7 +73,7 @@ Page({
       });
       return;
     }
-    wx.reLaunch({
+    wx.switchTab({
       url: '/pages/order/order',
     });
   }

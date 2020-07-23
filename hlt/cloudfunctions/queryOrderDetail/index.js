@@ -5,26 +5,28 @@ cloud.init()
 
 const db = cloud.database();
 
+const _ = db.command;
+const $ = db.command.aggregate;
+
 // 云函数入口函数
 exports.main = async (event, context) => {
   const { orderNo } = event;
   const { OPENID } = cloud.getWXContext();
   try {
     const res = await db.collection('orders')
-    .field({
-      createTime: true,
-      expireTime: true,
-      foodList: true,
-      orderNo: true,
-      orderStatus: true,
-      payment: true,
-      totalFee: true
+    .aggregate()
+    .project({
+      _id: 0,
+      openid: 0
     })
-    .where({
+    .addFields({
+      orderExpired: new Date().getTime() - '$expireTime' >= 0
+    })
+    .match({
       orderNo,
       'openId': OPENID
-    }).get();
-    console.log(res);
+    })
+    .end();
     return res;
   } catch (error) {
     console.log(error);

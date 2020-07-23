@@ -1,5 +1,4 @@
 
-import showLoading from '../../utils/showLoading.js';
 import throttle from '../../utils/throttle.js';
 
 Page({
@@ -220,7 +219,10 @@ Page({
 
   // 获取菜单列表
   async _getMenus() {
-    showLoading();
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    });
     const res = await wx.cloud.callFunction({name: 'getMenuList'});
     wx.hideLoading();
     if (!res) {

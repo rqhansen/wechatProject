@@ -23,22 +23,36 @@ page {
   font-size: 40rpx;
   color: #1AAD19;
 }
-.container .menu-wrap {
+.container .fast-menu-wrap {
   margin-top: 30rpx;
-  padding: 0 30rpx;
 }
-.container .menu-wrap .menu-list {
+.container .fast-menu-wrap .menu-list {
   background: #fff;
   border-radius: 12rpx;
 }
-.container .menu-wrap .menu-list .menu-item {
+.container .fast-menu-wrap .menu-list .menu-item {
   padding: 30rpx;
 }
-.container .menu-wrap .menu-list .menu-item .iconfont {
+.container .fast-menu-wrap .menu-list .menu-item .iconfont {
   margin-bottom: 10rpx;
   font-size: 50rpx;
   color: var(--themeColor);
 }
-.container .menu-wrap .menu-list .menu-item .iconfont + text {
+.container .fast-menu-wrap .menu-list .menu-item .iconfont + text {
   font-size: 24rpx;
+}
+.container .single-menu-wrap {
+  margin-top: 30rpx;
+}
+.container .single-menu-wrap .single-menu {
+  background: #fff;
+}
+.container .single-menu-wrap .single-menu .iconyoujiantou {
+  color: var(--grayColor);
+}
+.container .single-menu-wrap .single-menu .contact-btn {
+  width: 100%;
+  padding: 20rpx;
+  border: none;
+  font-weight: normal;
 }

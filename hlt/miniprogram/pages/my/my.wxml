@@ -12,8 +12,8 @@
                 </view>
             </view>
             <!-- 头像结束 -->
-            <!-- 菜单 -->
-            <view class="menu-wrap">
+            <!-- 快捷菜单 -->
+            <view class="fast-menu-wrap">
                 <view class="menu-list flex">
                     <view class="menu-item flex flex-item flex-column flex-justify-center flex-align-center" bindtap="goOrder">
                         <text class="iconfont icondingdan"></text><text>我的订单</text>
@@ -29,7 +29,15 @@
                     </view>
                 </view>
             </view>
-            <!-- 菜单结束 -->
+            <!-- 快捷菜单结束 -->
+            <view class="single-menu-wrap">
+                <view class="single-menu">
+                    <button class="contact-btn flex flex-justify-space-between flex-align-center" size="big" type="default" plain="{{true}}" open-type="contact">
+                        <text>我的客服</text>
+                        <text class="iconfont iconyoujiantou"></text>
+                    </button>
+                </view>
+            </view>
         </view>
     </view>
 </view>

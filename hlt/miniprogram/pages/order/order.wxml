@@ -10,14 +10,13 @@
             </view>
             <!-- tab结束 -->
             <!-- 内容 -->
-            <scroll-view scroll-y="true" class="order-scroll-wrap" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="scroll" bindtouchstart="touchstart">
+            <scroll-view scroll-y="true" class="order-scroll-wrap" scroll-top="{{scrollTop}}" scroll-with-animation="true" refresher-enabled="true" refresher-triggered="{{triggerRefresh}}" bindrefresherrefresh="refresh" bindscroll="scroll" bindtouchstart="touchstart">
                 <view wx:if="{{currOrderList.length}}" class="order-list">
                     <view class="order-item" wx:for="{{currOrderList}}" wx:for-index="idx" wx:for-item="order" wx:key="_id"> 
                         <view class="title flex flex-justify-space-between">
                             <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
-                            <!-- <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay">待付款</text> -->
-                            <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay {{!order.orderExpired ? 'over-time': ''}}">
-                                {{order.orderExpired === 0 ? '已取消':'待付款'}}
+                            <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay {{order.orderExpired ? 'over-time': ''}}">
+                                {{order.orderExpired ? '已取消':'待付款'}}
                             </text>
                             <text wx:elif="{{order.orderStatus===1}}" class="pay-tip done-pay">已完成</text>
                         </view>
@@ -46,14 +45,15 @@
                             </view>
                         </view>
                         <view wx:if="{{order.orderStatus===0}}" class="btn-handle flex flex-justify-flex-end flex-align-center">
-                            <block wx:if="{{order.orderExpired}}">
+                            <block wx:if="{{!order.orderExpired}}">
                                 <view class="iconfont iconshijian"></view>
-                                <view class="pay-end">支付剩余{{order.orderExpired}}</view>
+                                <view class="pay-end">支付剩余{{order.remainTime}}</view>
+                                <view class="btn-role buy-again" bindtap="toPay" data-payment="{{order.payment}}">去付款</view>
                             </block>
                          
-                            <view class="btn-role buy-again" bindtap="toPay" data-payment="{{order.payment}}">去付款</view>
+                            <view wx:else class="btn-role" bindtap="orderAgain" data-order="{{order}}">再来一单</view>
                         </view>
-                        <view wx:elif="{{order.orderStatus===1}}" class="btn-handle">
+                        <view wx:else class="btn-handle">
                             <view class="btn-role" bindtap="orderAgain" data-order="{{order}}">再来一单</view>
                         </view>
                     </view>

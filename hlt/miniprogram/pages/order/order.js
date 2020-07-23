@@ -6,26 +6,15 @@ Page({
    */
   data: {
     currIndex: 0,
-    tabs: [
-      {
-        title: '全部',
-        id: 0
-      },
-      {
-        title: '待付款',
-        id: 1
-      },
-      {
-        title: '已付款',
-        id: 2
-      },
-      {
-        title: '待评价',
-        id: 3
-      }
-    ],
     currOrderList: [],
-    scrollTop: 0
+    scrollTop: 0,
+    triggerRefresh: false,
+    tabs: [
+      { title: '全部', id: 0 },
+      { title: '待付款', id: 1 },
+      { title: '已完成', id: 2 },
+      { title: '已取消', id: 3 }
+    ]
   },
   hasClickPay: false,
   orderLists: [],
@@ -69,24 +58,21 @@ Page({
         mask: true,
       });
     }
-    const { data } = res.result;
+    const { list: data } = res.result;
     data.forEach(order => {
-      if (order.orderStatus === 0) {
+      if (order.orderStatus === 0 && !order.orderExpired) {
         const { expireTime } = order;
         const now = new Date().getTime();
         const diffTime = expireTime - now;
-        if (diffTime <= 0) { // 超出2小时，订单过期
-          order.orderExpired = 0;
-        } else {
-          order.orderExpired = Math.floor(diffTime /  (60 * 60 * 1000)) + '小时' + Math.floor((diffTime % (60 * 60 * 1000)) / (60 * 1000)) + '分';
-        }
-      }
+        order.remainTime = Math.floor(diffTime /  (60 * 60 * 1000)) + '小时' + Math.floor((diffTime % (60 * 60 * 1000)) / (60 * 1000)) + '分';
+    }
     });
     this.setData({
       currOrderList: data
     });
     return data;
   },
+
   // 切换tab
   async switchTab(e) {
     const { tabindex } = e.currentTarget.dataset;
@@ -97,15 +83,6 @@ Page({
         icon: 'none',
         duration: 1000,
         mask: true
-      });
-      return;
-    }
-    if (tabindex === 3) {
-      wx.showToast({
-        title: '敬请期待',
-        icon: 'none',
-        duration: 500,
-        mask: true,
       });
       return;
     }
@@ -159,6 +136,7 @@ Page({
       signType,
       paySign
     });
+
     wx.hideLoading();
     this.hasClickPay = false;
     if (res === 0) {
@@ -208,22 +186,24 @@ Page({
     });
   },
 
+  async refresh() {
+    let status = null;
+    if (this.data.currIndex) {
+      status = this.data.currIndex - 1;
+    }
+    const res = await this.getOrderRecored({
+      orderStatus: status
+    });
+    this.orderLists[this.data.currIndex] = res;
+    this.setData({
+      triggerRefresh: false,
+    })
+  },
+
   // 去首页
   goHome() {
     wx.switchTab({
       url: '/pages/index/index',
     });
-  },
-  async onTabItemTap() {
-    if (!this.userInfo && app.getUserInfo()) {
-      wx.showLoading({
-        title: '加载中...',
-        mask: true,
-      });
-      const res = await this.getOrderRecored();
-      wx.hideLoading();
-      this.orderLists[0] = res;
-    }
-
   }
 })

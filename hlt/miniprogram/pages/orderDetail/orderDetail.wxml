@@ -8,14 +8,13 @@
                     <view class="text">
                         <text wx:if="{{orderDetail.orderStatus===1}}">已完成</text>
                         <view wx:if="{{orderDetail.orderStatus===0}}">
-                            <text wx:if="{{orderDetail.orderExpired===0}}">已取消</text>
+                            <text wx:if="{{orderDetail.orderExpired}}">已取消</text>
                             <view wx:else class="flex flex-justify-space-between flex-align-center">
                                 <text>待付款</text>
                                 <text class="count-time">{{'支付剩余' + orderDetail.timerArr[0]+ '小时' + orderDetail.timerArr[1] + '分钟' + orderDetail.timerArr[2] + '秒'}}</text>
                             </view>
                         </view>
                     </view>
-                    <!-- <text class="text"></text> -->
                 </view>
                 <!-- 标题结束 -->
                 <!-- 菜品列表 -->
@@ -65,7 +64,7 @@
                 </view>
                 <!-- 订单结束 -->
             </view>
-            <view wx:if="{{orderDetail.orderStatus===0}}" class="tool-btn">
+            <view wx:if="{{orderDetail.orderStatus===0 && !orderDetail.orderExpired}}" class="tool-btn">
                 <view class="tool-section">
                     <view class="btn" bindtap="pay" data-order="{{orderDetail}}">立即付款</view>
                 </view>

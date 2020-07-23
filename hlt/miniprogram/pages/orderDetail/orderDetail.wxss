@@ -14,6 +14,7 @@ page {
 .container .title .count-time {
   width: 60%;
   font-size: 26rpx;
+  text-align: right;
 }
 .container .detail-section {
   position: absolute;
