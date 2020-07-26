@@ -49,7 +49,27 @@ exports.main = async (event, context) => {
     } catch (error) {
       console.log(error);
     }
-  } else if (orderStatus === 2) {
+  }  else if (orderStatus === 1) { // 已完成
+    try {
+       const res = await db.collection('orders')
+       .aggregate()
+       .addFields({
+         orderExpired: $.subtract([Date.now(), '$expireTime'])
+       })
+       .match({
+         orderStatus: 1,
+ 
+       })
+       .sort({
+         createTime: -1
+       })
+       .limit(10)
+       .end();
+       return res;
+       } catch (error) {
+       console.log(error);
+     }
+   } else if (orderStatus === 2) { // 已取消
     try {
       const res = await db.collection('orders')
       .aggregate()
@@ -69,49 +89,5 @@ exports.main = async (event, context) => {
     } catch (error) {
       console.log(error);
     }
-  } else if (orderStatus === 1) { // 已完成
-   try {
-      const res = await db.collection('orders')
-      .aggregate()
-      .addFields({
-        orderExpired: $.subtract([Date.now(), '$expireTime'])
-      })
-      .match({
-        orderStatus: 1,
-
-      })
-      .sort({
-        createTime: -1
-      })
-      .limit(10)
-      .end();
-      return res;
-      } catch (error) {
-      console.log(error);
-    }
-  } else {
-   
   }
-  // if (orderStatus!=undefined) { // undefined查询全部
-  //   query.orderStatus = orderStatus;
-  // }
-  // if (orderStatus === 2) {
-  //   query.expireTime = _.lt(new Date().getTime())
-  // }
-  // try {
-  //   const res = await db.collection('orders')
-  //   .aggregate()
-  //   .addFields({
-  //     orderExpired: $.subtract([Date.now(), '$expireTime'])
-  //   })
-  //   .match(query)
-  //   .sort({
-  //     createTime: -1
-  //   })
-  //   .limit(10)
-  //   .end();
-  //   return res;
-  // } catch (error) {
-  //   console.log(error);
-  // }
 }

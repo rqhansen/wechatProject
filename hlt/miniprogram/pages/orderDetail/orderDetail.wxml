@@ -8,7 +8,7 @@
                     <view class="text">
                         <text wx:if="{{orderDetail.orderStatus===1}}">已完成</text>
                         <view wx:if="{{orderDetail.orderStatus===0}}">
-                            <text wx:if="{{orderDetail.orderExpired}}">已取消</text>
+                            <text wx:if="{{orderDetail.orderExpired>0}}">已取消</text>
                             <view wx:else class="flex flex-justify-space-between flex-align-center">
                                 <text>待付款</text>
                                 <text class="count-time">{{'支付剩余' + orderDetail.timerArr[0]+ '小时' + orderDetail.timerArr[1] + '分钟' + orderDetail.timerArr[2] + '秒'}}</text>

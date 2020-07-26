@@ -5,7 +5,7 @@ cloud.init()
 
 const db = cloud.database();
 
-const _ = db.command;
+// const _ = db.command;
 const $ = db.command.aggregate;
 
 // 云函数入口函数
@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
       openid: 0
     })
     .addFields({
-      orderExpired: new Date().getTime() - '$expireTime' >= 0
+      orderExpired: $.subtract([Date.now(), '$expireTime'])
     })
     .match({
       orderNo,

@@ -41,7 +41,7 @@ Page({
       this.setData({
         orderDetail: order
       });
-      if (order.orderStatus === 0 && !order.orderExpired) { //未过期
+      if (order.orderStatus === 0 && order.orderExpired<=0) { //未过期
         const diffTime = order.expireTime - new Date().getTime();
         this.setCountTime(diffTime, order);
       }
