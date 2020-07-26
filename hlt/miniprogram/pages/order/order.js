@@ -60,7 +60,7 @@ Page({
     }
     const { list: data } = res.result;
     data.forEach(order => {
-      if (order.orderStatus === 0 && !order.orderExpired) {
+      if (order.orderStatus === 0 && order.orderExpired <=0) {
         const { expireTime } = order;
         const now = new Date().getTime();
         const diffTime = expireTime - now;

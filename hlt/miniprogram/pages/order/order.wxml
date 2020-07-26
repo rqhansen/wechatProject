@@ -15,8 +15,8 @@
                     <view class="order-item" wx:for="{{currOrderList}}" wx:for-index="idx" wx:for-item="order" wx:key="_id"> 
                         <view class="title flex flex-justify-space-between">
                             <text bindtap="goHome">玉杰胡辣汤店<text class="iconfont iconyoujiantou"></text></text>
-                            <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay {{order.orderExpired ? 'over-time': ''}}">
-                                {{order.orderExpired ? '已取消':'待付款'}}
+                            <text wx:if="{{order.orderStatus===0}}" class="pay-tip to-pay {{order.orderExpired>0 ? 'over-time': ''}}">
+                                {{order.orderExpired>0 ? '已取消':'待付款'}}
                             </text>
                             <text wx:elif="{{order.orderStatus===1}}" class="pay-tip done-pay">已完成</text>
                         </view>
@@ -44,8 +44,8 @@
                                 <text class="total">{{order.totalFee}}元</text>
                             </view>
                         </view>
-                        <view wx:if="{{order.orderStatus===0}}" class="btn-handle flex flex-justify-flex-end flex-align-center">
-                            <block wx:if="{{!order.orderExpired}}">
+                        <view wx:if="{{order.orderStatus==0}}" class="btn-handle flex flex-justify-flex-end flex-align-center">
+                            <block wx:if="{{order.orderExpired<0}}">
                                 <view class="iconfont iconshijian"></view>
                                 <view class="pay-end">支付剩余{{order.remainTime}}</view>
                                 <view class="btn-role buy-again" bindtap="toPay" data-payment="{{order.payment}}">去付款</view>

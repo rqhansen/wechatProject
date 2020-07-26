@@ -6,7 +6,7 @@ function timeStampToString(timeStamp){
     const dt = new Date(timeStamp);
     const y = dt.getFullYear();
 
-    let m = dt.getMonth();
+    let m = dt.getMonth() + 1;
     m = m >= 10 ? m : `0${m}`;
 
     let d = dt.getDate();

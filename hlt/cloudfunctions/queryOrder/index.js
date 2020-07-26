@@ -13,26 +13,105 @@ exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
   let query = { 'openId': OPENID };
   const { orderStatus } = event;
-  if (orderStatus!=undefined) { // undefined查询全部
-    query.orderStatus = orderStatus;
+  if (orderStatus==undefined) { // 查询所有
+      try {
+      const res = await db.collection('orders')
+      .aggregate()
+      .addFields({
+        orderExpired: $.subtract([Date.now(), '$expireTime'])
+      })
+      .sort({
+        createTime: -1
+      })
+      .limit(10)
+      .end();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (orderStatus === 0) { // 待付款
+    try {
+      const res = await db.collection('orders')
+      .aggregate()
+      .addFields({
+        orderExpired: $.subtract([Date.now(), '$expireTime'])
+      })
+      .match({
+        orderStatus: 0,
+        expireTime : _.gt(new Date().getTime())
+      })
+      .sort({
+        createTime: -1
+      })
+      .limit(10)
+      .end();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (orderStatus === 2) {
+    try {
+      const res = await db.collection('orders')
+      .aggregate()
+      .addFields({
+        orderExpired: $.subtract([Date.now(), '$expireTime'])
+      })
+      .match({
+        orderStatus: 0,
+        expireTime : _.lt(new Date().getTime())
+      })
+      .sort({
+        createTime: -1
+      })
+      .limit(10)
+      .end();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (orderStatus === 1) { // 已完成
+   try {
+      const res = await db.collection('orders')
+      .aggregate()
+      .addFields({
+        orderExpired: $.subtract([Date.now(), '$expireTime'])
+      })
+      .match({
+        orderStatus: 1,
+
+      })
+      .sort({
+        createTime: -1
+      })
+      .limit(10)
+      .end();
+      return res;
+      } catch (error) {
+      console.log(error);
+    }
+  } else {
+   
   }
-  if (orderStatus === 2) {
-    query.expireTime = _.lt(new Date().getTime())
-  }
-  try {
-    const res = await db.collection('orders')
-    .aggregate()
-    .addFields({
-      orderExpired: new Date().getTime() - '$expireTime' >= 0
-    })
-    .match(query)
-    .sort({
-      createTime: -1
-    })
-    .limit(10)
-    .end();
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
+  // if (orderStatus!=undefined) { // undefined查询全部
+  //   query.orderStatus = orderStatus;
+  // }
+  // if (orderStatus === 2) {
+  //   query.expireTime = _.lt(new Date().getTime())
+  // }
+  // try {
+  //   const res = await db.collection('orders')
+  //   .aggregate()
+  //   .addFields({
+  //     orderExpired: $.subtract([Date.now(), '$expireTime'])
+  //   })
+  //   .match(query)
+  //   .sort({
+  //     createTime: -1
+  //   })
+  //   .limit(10)
+  //   .end();
+  //   return res;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
